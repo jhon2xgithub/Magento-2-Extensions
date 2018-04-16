@@ -1,0 +1,159 @@
+<?php
+
+//instance of\Magento\Framework\App\ObjectManager
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currentStore = $storeManager->getStore();
+
+$helper = $this->helper('\Shop\Lookbook\Helper\Data');
+
+if ($helper->getEnabled()) :
+
+    $data = $block->getCollection();
+
+    $max_slide = $helper->getMaxSlide();
+    $min_slide = $helper->getMinSlide();
+    $width = $helper->getMaxImageWidth();
+    $height = $helper->getMaxImageHeight();
+    $height_procent = $height/$width*100;
+    $thumb_width = intval($width/($height/100));
+    $effects = $helper->getEffects();
+    if (!$effects || $effects=='') $effects = 'random';
+    $navigation = ($helper->getNavigation()==1) ? 'true' : 'false';
+    $navigationHover = ($helper->getNavigationHover()==1) ? 'true' : 'false';
+    $thumbnails = ($helper->getThumbnails()==1) ? 'true' : 'false';
+    $pause = ($helper->getPause()) ? $helper->getPause() : 7000;
+    $trans_period = ($helper->getTransitionDuration()) ? $helper->getTransitionDuration() : 1500;
+    $productUrls = array();
+    $productSort = array();
+
+     if ($data->getSize() >0 ) :
+
+        ?>
+
+
+        <div class="bxslider_container">
+            <!-- The main images -->
+            <ul class="bxslider" id="bxslider">
+                <?php for($x = 0; $x < count($data->getData()); $x++) { ?>
+                    <?php
+                    if($data->getData()[$x] != '' && $data->getData()[$x]['status'] == 1) {
+
+                        $imgNew = $data->getData()[$x];
+                      
+                        if (strpos($imgNew['sku'], ',') !== false) {                            
+                            $controller_ur = $this->getBaseUrl()."lookbook/index/nextpage/id/".$imgNew['id'];
+                            $sku = explode(',',$imgNew['sku']);
+
+                            $sku = $sku[0];
+
+                        }else{
+                            $controller_ur = $this->getBaseUrl()."lookbook/index/nextpage/id/".$imgNew['id'];
+                            $sku = $imgNew['sku'];
+                        }
+
+                        $_product = $block->getProductBySku($sku);
+
+                        $view_img = $helper->getResizedUrl($imgNew['image']);
+
+                        ?>
+                        <?php if($_product != null): ?>
+                            <li>
+                                <!-- <a href="<?php echo $_product->getProductUrl(); ?>" count="<?=$x;?>"> -->
+                                <a href="<?php echo $controller_ur; ?>" count="<?=$x;?>"> 
+                                   
+                                    <img src="<?php echo $view_img; ?>" alt=""/>
+                                </a>
+                            </li>
+                        <?php else: ?>
+                            <li>
+                                <a href="#" count="<?=$x;?>">
+                                    <img src="<?php echo $view_img; ?>" alt=""/>
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php
+                    }
+                    ?>
+                    </li>
+                    <?php
+                }
+                ?>
+            </ul>
+            <br/>
+            <!-- set pager -->
+            <ul id="bxslider-pager">
+                <?php for($x = 0; $x < count($data->getData()); $x++) { ?>
+                    <?php
+                    if($data->getData()[$x] != '' && $data->getData()[$x]['status'] == 1) {
+
+                        $imgNew = $data->getData()[$x];
+                        ?>
+                        <li>
+                            <a data-slide-index="<?=$x;?>" href="">
+                                <img src="<?php echo $helper->getResizedUrl($imgNew['image']);?>" alt=""/>
+                            </a>
+                        </li>
+                        <?php
+                    }
+                } ?>
+            </ul>
+            <!-- end pager -->
+        </div>
+    <?php endif; ?>
+    <script>
+        // <![CDATA[
+        require([
+            'jquery',
+            'jqueryNoConflict',
+            'jquerybxslider',
+            'jquerybxslidermin'
+
+        ], function ($) {
+
+            // $(document).ready(function(){
+
+
+                $('.bxslider').bxSlider({
+
+                    minSlides: <?=$min_slide;?>, // 1
+                    maxSlides: <?=$max_slide;?>, // 2
+                    slideWidth: <?=$width/2; ?>, //620
+                    slideMargin: 0,
+                    pagerCustom: 'ul#bxslider-pager',
+                    preloadImages: 'visible',
+                    hideControlOnEnd: true,
+
+                });
+
+                $("ul#bxslider-pager").bxSlider({
+                    minSlides: 1,
+                    maxSlides: 14,
+                    slideWidth: 180,
+                    slideMargin: 0,
+                    //moveSlides: 1,
+                    pager: false,
+                    speed: 1000,
+                    // 	auto: false,
+                    infiniteLoop: false, // set to false to avoid duplicate image
+                    hideControlOnEnd: false,
+                    nextText: '<span>Next</span>',
+                    prevText: '<span>Prev</span>',
+                    useCSS: false,
+
+
+                });
+
+                // if(jQuery('.bx-wrapper').attr('style') =="max-width:0px;"){
+                // 	jQuery('.bx-wrapper, .bx-controls .bx-has-controls-direction').css({
+                // 		'display': 'none!important'
+                // 	});
+                // }
+            // });    
+
+
+        });
+        // ]]>
+    </script>
+ <?php endif; ?>

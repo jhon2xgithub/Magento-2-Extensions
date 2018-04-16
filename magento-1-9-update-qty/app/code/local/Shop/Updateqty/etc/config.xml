@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Shop_Updateqty>
+      <version>0.1.0</version>
+    </Shop_Updateqty>
+  </modules>
+  <global>
+    <helpers>
+      <updateqty>
+        <class>Shop_Updateqty_Helper</class>
+      </updateqty>
+    </helpers>
+  </global>
+  <frontend>
+    <routers>
+      <updateqty>
+        <use>standard</use>
+        <args>
+          <module>Shop_Updateqty</module>
+          <frontName>updateqty</frontName>
+        </args>
+      </updateqty>
+      <checkout>
+          <args>
+              <modules>
+                  <Shop_Updateqty before="Mage_Checkout">Shop_Updateqty</Shop_Updateqty>
+              </modules>
+          </args>
+      </checkout>
+    </routers>
+    <layout>
+      <updates>
+        <updateqty>
+          <file>updateqty.xml</file>
+        </updateqty>
+      </updates>
+    </layout>
+  </frontend>
+</config>

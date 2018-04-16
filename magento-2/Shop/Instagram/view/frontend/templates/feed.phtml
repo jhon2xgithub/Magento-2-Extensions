@@ -1,0 +1,89 @@
+<?php 
+if($block->getEnabled()):
+
+	$getInstagramUrl= $block->getInstagramUrl();
+	$user_id = $block->getUserId();
+	$path = "{$getInstagramUrl}v1/users/{$user_id}/";
+	$access_token = $block->getAccessToken();
+
+	$qs =array();
+	
+	if($access_token !==''){	
+		$qs['access_token'] = $access_token;
+	}
+
+	// by user
+	$data = http_build_query($qs);		
+	$json = file_get_contents($path.'?'.$data);
+	$user = json_decode($json, true);
+	
+	$tag = $block->getTag();
+	//by tag
+	$json = file_get_contents("{$getInstagramUrl}{$tag}/media/");
+	$byTags = json_decode($json, true);	
+
+	?>
+	<div class="container">
+		<div id="sb_instagram" class="sbi sbi_col_3 sbi_small" style="width:100%; padding-bottom: 10px; " data-id="<?=$user['data']['id']?>" data-num="6" data-res="auto" data-cols="3" data-options="{&quot;sortby&quot;: &quot;none&quot;, &quot;headercolor&quot;: &quot;&quot;, &quot;imagepadding&quot;: &quot;5&quot;}">
+		   <div class="sb_instagram_header" style="padding: 10px; padding-bottom: 0;">
+		      <a href="<?=$getInstagramUrl.$user['data']['username']; ?>" target="_blank" title="@<?=$user['data']['full_name']; ?>" class="sbi_header_link">
+		         <div class="sbi_header_text">
+		            <h3>@<?=$user['data']['username']; ?></h3>	  
+		            <p class="sbi_bio"><?=$user['data']['bio']; ?></p>       
+		         </div>
+		         <div class="sbi_header_img">
+		            <div class="sbi_header_img_hover"><i></i></div>
+		            <img src="<?=$user['data']['profile_picture']; ?>" alt="<?=$user['data']['full_name']; ?>" width="50" height="50">
+		         </div>
+		      </a>
+		   	</div>	
+		   	
+			<ul class="gallery">  			
+				<?php foreach ($byTags['items'] as $item):    	
+			   		$id = $item['id']; 
+			   		$created_time= $item['created_time'];
+			   		$images_thumbnail_url = $item['images']['thumbnail']['url'];
+			   		$link = $item['link'];
+				?>
+			  	<li>
+			  		<a href="<?= $link;?>" target="_blank" style="opacity: 1;">
+			  			<img src="<?=$images_thumbnail_url; ?>" alt="" width="100" height="60">
+			  		</a>	
+			  	</li>
+				<?php endforeach; ?>    
+			</ul>
+			
+		</div>
+		
+		<?php if($block->getshowMore()): ?>
+			<div class="more">Show more</div>
+			<div class="less">Show less</div>
+		<?php endif; ?>
+	</div>	
+	<script type="text/javascript">
+	require(['jquery'],function($){
+		// var $ = jQuery.noConflict();
+		$(document).ready(function () {
+		    $('.gallery li:lt(<?=$block->getShowPost(); ?>)').show();
+		    $('.less').hide();
+		   	var items ="<?=count($byTags['items']); ?>";
+		    var show= "<?=$block->getShowPost(); ?>";
+		    $('.more').click(function () {
+		        jQuery('.less').show();
+		        shown = $('.gallery li:visible').size()+<?=$block->getShowPost(); ?>;
+		        if(shown< items) {
+		        	$('.gallery li:lt('+shown+')').show(300);
+		        }else{
+		        	$('.gallery li:lt('+items+')').show(300);	
+		            $('.more').hide();
+		        }
+		    });
+		    $('.less').click(function () {
+		        $('.gallery li').not(':lt(6)').hide(300);
+		        $('.more').show();
+		        $('.less').hide();
+		    });
+		});
+	});
+	</script>	
+<?php endif; ?>

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="Shop_Storestock::css/style.css" />  
+	</head>
+	<body>
+		<referenceContainer name="product.info.extrahint">
+			<block class="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable" after="-" name="product.view_type_configurable" template="Shop_Storestock::product/view_type_configurable.phtml"/>
+		</referenceContainer>
+	</body>
+</page>

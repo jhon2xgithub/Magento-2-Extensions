@@ -1,0 +1,24 @@
+.modal-popup._show {
+    visibility: visible;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    margin: auto;
+    top: 50%;
+    width: 80%;
+}
+.modal-popup{
+    overflow-y: hidden;    
+}
+.continue-shopping, .go-shopping-cart{
+    background: #333;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 10px;
+    border-radius: 0;
+}
+
+@media (max-width: 600px) {
+    .modal-popup._show {
+        width: 100%;
+    }
+}

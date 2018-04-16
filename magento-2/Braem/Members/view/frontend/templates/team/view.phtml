@@ -1,0 +1,132 @@
+<?php $teamMemberCollection = $block->getTeamMembers(); ?>
+<?php $memberDepartments = $block->getMemberDepartments(); ?>
+<?php $memberRegions = $block->getMemberRegions(); ?>
+<?php $team = $block->getCurrentTeam(); ?>
+
+<?php if(count($teamMemberCollection) > 0):?>
+<section class="section" id="google-translate">   
+    <div class="title">
+        <h1><?php echo $team->getName(); ?></h1>
+    </div> 
+    <div class="autowide">
+        <form action="<?php echo $block->getFilterTeamUrl(); ?>" method="POST" id="member-filter">
+            <?php if(count($memberDepartments) > 0): ?>
+            <div class="module">
+                <label for="department"><?php echo __('Select department'); ?></label>
+            </div>
+            <div class="module"> 
+                <select id="department-select" name="department">
+                    <option value=""><?php echo __('Select department'); ?></option>
+                    <?php foreach($memberDepartments as $department): 
+                            $deptid = $block->getDepartmentName($department->getId());                                            
+                        ?>
+                        <?php if($this->getCurrentDepartment() && $this->getCurrentDepartment()->getId() === $department->getId()): ?>
+                            <option value="<?php echo $department->getId(); ?>" selected="selected"><?php echo $deptid['department_name']; ?></option>
+                        <?php else: ?>
+                            <option value="<?php echo $department->getId(); ?>"><?php echo $deptid['department_name']; ?></option>
+                        <?php endif; ?>
+
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <?php endif; ?>
+
+            <?php if(count($memberRegions) > 0): ?>
+            <div class="module">
+                <label for="region"><?php echo __('Select region'); ?></label>
+            </div>
+            <div class="module">
+                <select id="region-select" name="region">
+                    <option value=""><?php echo __('Select region'); ?></option>
+                    <?php foreach($memberRegions as $region): 
+                        $regionid = $block->getRegionName($region->getId());     
+                        ?>
+                        <?php if($this->getCurrentRegion() && $this->getCurrentRegion()->getId() === $region->getId()): ?>
+                            <option value="<?php echo $region->getId(); ?>" selected="selected"><?php echo $regionid['region_name']; ?></option>
+                        <?php else: ?>
+                            <option value="<?php echo $region->getId(); ?>"><?php echo $regionid['region_name']; ?></option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <?php endif; ?> 
+        
+            <!-- list-view -->
+            <?php foreach($teamMemberCollection as $teamMember): 
+                $department = $block->getDepartment($teamMember); 
+                $region = $block->getRegion($teamMember);          
+            ?>   
+            <div class="module list-view">
+                <h4 class="team-dept"><?php echo strtoupper($block->getStoreNameById($teamMember->getStore())); ?></h4>
+                <div class="col-xs-8 images">
+                    <img src="<?php echo $block->getImage($teamMember); ?>" />
+                </div>    
+              
+                <?php $flags = $block->getLanguagesList($teamMember); ?>
+                <?php if(count($flags) > 0): ?>
+                    <ul class="languages-list">
+                        <?php foreach($flags as $flag): ?>
+                            <li><img src="<?php echo $flag; ?>"</li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+                <h4><?php echo $teamMember->getName(); ?></h4>
+                <h6><?php echo $department['department_name']; ?></h6>
+                <h6><?php echo __('Region:'); ?> <?php echo $region['region_name']; ?></h6>
+                <a class="mail" href="mailto:<?php echo $teamMember->getEmail(); ?>"><i class="glyphicon glyphicon-envelope" arial-hidden="true"></i><?php //echo $teamMember->getEmail(); ?>Email</a>
+                <a class="tel" href="tel:<?php echo $teamMember->getPhone(); ?>"><i class="fa fa-phone-o" arial-hidden="true"></i><?php //echo $teamMember->getPhone(); ?>Phone</a>
+            </div>
+
+            <?php endforeach; ?>   
+        </form>      
+
+    </div>
+</section>
+<?php endif; ?>
+
+<script>
+    require([
+        'jquery',
+        'domReady!',
+        'https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js'
+    ], function($) {
+        $("#member-filter select").change(function(){
+            form =  $('#member-filter');
+            var url = form.attr('action');
+
+            data = form.find(":input").filter(function () {
+                return $.trim(this.value).length > 0
+            }).serialize();
+
+            //var r = new RegExp('=|&', 'g');
+
+            url += '?' + data;
+
+            form.attr("action",url);
+            form.submit();
+        });
+
+        var localecode = "<?=substr($block->getlocalecode(),0,2);?>";       
+        $.cookie('googtrans', '/en/'+localecode);
+
+        $("body").each(function() {
+           $(this).find("*").addClass('notranslate');          
+        });
+        $("section#google-translate").each(function() {
+            $(this).find("*").removeClass('notranslate');  
+            $(this).find("*").addClass('translate');           
+        });
+
+    });
+</script>
+<div id="google_translate_element" style="display: none; "></div>
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            {pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 
+            'google_translate_element'
+        );        
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

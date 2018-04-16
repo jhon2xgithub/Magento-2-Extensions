@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <shop_lookbook>
+            <general>
+                <enable>1</enable>
+                <min_slide>1</min_slide>
+                <max_slide>2</max_slide>
+                <min_image_width>300</min_image_width>
+                <min_image_height>600</min_image_height>
+                <max_image_width>980</max_image_width>
+                <max_image_height>600</max_image_height>
+                <effects>simpleFade</effects>
+                <navigation>1</navigation>
+                <navigation_hover>1</navigation_hover>
+                <thumbnails>1</thumbnails>
+                <pause>7000</pause>
+                <allowed_extensions>jpg,jpeg,png,gif</allowed_extensions>                    
+                <max_upload_filesize>2097152</max_upload_filesize>
+                <transition_duration>1500</transition_duration>
+            </general>
+        </shop_lookbook>
+    </default>
+</config>

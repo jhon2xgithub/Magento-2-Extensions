@@ -1,0 +1,34 @@
+https://stackoverflow.com/questions/10302724/calling-methods-in-requirejs-modules-from-html-elements-such-as-onclick-handlers
+https://magento.stackexchange.com/questions/112085/magento-2-how-i-can-add-configurable-products-to-cart-from-category-view-with-s
+https://magento.stackexchange.com/questions/98634/how-can-i-add-add-to-cart-button-in-custom-phtml-file
+https://www.cloudways.com/blog/add-additional-options-in-magento-2/
+
+//magento 2
+if you want to add custom block on xml in configurable product page 
+don't wrapp it inside 'Magento/Catalog/View/frontend' make out of this sample 
+
+<referenceContainer name="product.info.extrahint">
+	<block class="Magento\Catalog\Block\Product\View" before="-" name="product.info.reservation" as="reservation" template="Shop_Reservation::product/reservation.phtml"/>
+</referenceContainer>
+
+https://www.mageplaza.com/how-get-product-stock-information-magento-2.html
+https://magento.stackexchange.com/questions/137057/how-to-get-product-image-and-url-in-magento-2
+
+//Magento2 – Write Custom Mysql Query (Without Using Model)
+https://webkul.com/blog/magento2-write-custom-mysql-query/
+
+https://magento2-blog.com/magento-2-get-product-by-id/
+https://magento2-blog.com/magento-2-get-product-by-id/
+
+https://magento.stackexchange.com/questions/92204/magento-2-get-product-collection-in-a-custom-template-block
+https://www.mageplaza.com/how-get-product-stock-information-magento-2.html
+https://webkul.com/blog/magento2-get-formatted-price-with-currency/
+https://magento.stackexchange.com/questions/139086/magento-2-how-to-get-the-product-price-with-currency-symbol-in-phtml-file-with
+https://magento.stackexchange.com/questions/154367/how-to-call-block-method-from-controller-in-magento-2
+
+https://magento.stackexchange.com/questions/87629/how-do-call-block-in-controller-magento2
+https://magento.stackexchange.com/questions/148053/how-to-load-customer-by-email-in-magento2
+https://www.mageplaza.com/magento-2-module-development/how-to-create-crud-model-magento-2.html
+https://www.mageplaza.com/how-to-validate-form-magento-2.html
+
+https://magento.stackexchange.com/questions/109622/how-to-get-product-id-to-my-custom-module

@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab 
+            id="Instagram_tab" 
+            translate="label" 
+            sortOrder="10">
+            <label>Instgram</label>
+        </tab>
+        <section 
+            id="shop_instagram" 
+            translate="label" 
+            sortOrder="130" 
+            showInDefault="1" 
+            showInWebsite="1" 
+            showInStore="1">
+            <class>separator-top</class>
+            <label>Instagram Settings</label>
+            <tab>Instagram_tab</tab>
+            <resource>Shop_Instagram::config</resource>
+            <group 
+                id="general" 
+                translate="label" 
+                type="text" 
+                sortOrder="10" 
+                showInDefault="1" 
+                showInWebsite="1" 
+                showInStore="1">
+                <label>General Settings</label>
+                <field 
+                    id="enable" 
+                    translate="label" 
+                    type="select" 
+                    sortOrder="0" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Enable Extension</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field 
+                    id="access_token" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="1" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Access Token</label>
+                    <comment><![CDATA[In order to display your photos you need an Access Token from Instagram. To get yours, simply click the link and log into Instagram. <a href="https://www.instagram.com/developer/" target="_blank">this page.</a>]]></comment>
+                </field>
+                <field 
+                    id="url" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="2" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Url</label>
+                    <comment>Instagram url</comment>
+                </field>
+                <field 
+                    id="user_id" 
+                    translate="label"   
+                    type="text" 
+                    sortOrder="3" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>User Id</label>
+                    <comment>Instagram userid.</comment>
+                </field>    
+                <field 
+                    id="tag" 
+                    translate="label"   
+                    type="text" 
+                    sortOrder="3" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Tag</label>
+                    <comment>Instagram Tag Name</comment>
+                </field>        
+                <field 
+                    id="show_post" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="4" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Post Show</label>
+                    <comment>Instagram number of post</comment>
+                </field>  
+                <field 
+                    id="show_more" 
+                    translate="label" 
+                    type="select" 
+                    sortOrder="5" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Show More</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show more button</comment>
+                </field>          
+            </group>
+        </section>
+    </system>
+</config>

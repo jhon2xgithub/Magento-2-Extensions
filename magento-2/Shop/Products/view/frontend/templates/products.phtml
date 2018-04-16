@@ -1,0 +1,11 @@
+Products: 
+<?php 
+$cat = $block->getCategoryModel(3);
+echo $image = $cat->getImageUrl();
+
+echo '<br/>';
+
+$products = $block->getProductCollection();
+foreach ($products as $key => $product) {
+	print_r($product->getData());
+}

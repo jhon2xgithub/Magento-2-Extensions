@@ -1,0 +1,174 @@
+<?php 
+// check product types
+$product_id = $block->getProduct()->getId();
+// load current product from product pages
+$currentProduct = $this->getProduct();
+$helper = $this->helper('\Shop\Storestock\Helper\Data');
+?>
+<div>
+   <a href="#" id="click-me">Check availibility</a>
+</div>
+<div id="popup-mpdal" style="display:none;">
+    
+    <form id="form-webservices" action="<?php echo $this->getUrl().'storestock/product/view/'?>" method="post">
+        <fieldset class="fieldset info">         
+            <div class="field field-name-sku required">
+            <label class="label" for="sku">
+                <span>SKU</span>
+            </label>
+            <input type="text" id="single_product_id" name="single_product_id" placeholder="For single item"/>
+            <?php
+            // checks product types if configurable
+            if($block->getProduct()->getTypeId() == 'configurable'):
+                // loads its childs ids
+                $childrenIds = $currentProduct->getTypeInstance()->getChildrenIds($product_id);
+            
+                foreach ($childrenIds[0] as $product_id):
+                    // call helper method get product by id and pass the child ids from parent configurable
+                    $_product = $helper->getProductById($product_id);                   
+                    // pass the sku
+                    $item = $helper->getProductBySku($_product->getSku());
+                    // get the id by sku
+                    $id = $item->getId();
+                    // get the sku
+                    $sku = $item->getSku();                  
+                    ?>
+                    <input type="hidden" name="product_type" value="configurable"/>
+                    <input type="text" id="multiple_product_id" name="product_id[]" value="<?=$id;?>" class="multiple_product_id"/>
+                    <div class="control">
+                        <input type="text" id="multiple_product_sku" name="sku[]" value="<?=$sku;?>" title="Stock Keeping Unit" class="input-text required-entry multiple_product_sku" data-validate="{required:true}" autocomplete="off" aria-required="true">
+                    </div>
+                <?php                      
+                endforeach;
+
+            else:
+
+                // call helper method get product by id and pass the child ids from parent configurable
+                $_product = $helper->getProductById($product_id);
+                // pass the sku
+                $item = $helper->getProductBySku($_product->getSku());
+                // get the id by sku  
+                $id = $item->getId();
+                // get the sku
+                $sku = $item->getSku(); 
+
+                ?>
+                <input type="hidden" name="product_type" value="simple"/>
+                <input type="text" name="product_id[]" value="<?=$id;?>"/>
+                <div class="control">
+                    <input type="text" name="sku[]" value="<?=$sku;?>" title="Stock Keeping Unit" class="input-text required-entry" data-validate="{required:true}" autocomplete="off" aria-required="true">
+                </div>
+            <?php 
+            endif; 
+            ?>
+          
+            </div>
+        </fieldset>      
+    </form>
+</div>
+<?php 
+$blockObj= $block->getLayout()->createBlock('\Magento\Swatches\Block\Product\Renderer\Configurable');
+$getJsonConfig = $blockObj->getJsonConfig(); 
+$getJsonSwatchConfig = $blockObj->getJsonSwatchConfig(); 
+?>
+<script>
+require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/modal'
+    ],
+    function($, modal) {
+
+        $(document).ready(function() {
+
+            var jsonConfig = <?=$getJsonConfig;?>;
+
+            $('body').on('click', '.swatch-option', function(e) {
+                var swatchid = $('.swatch-attribute').attr('option-selected');
+                var swatchattributeid = $('.swatch-attribute').attr('attribute-id');
+                if (swatchid) {
+                   
+                    var arr = [];
+                    $(jsonConfig).each(function(i, a) {
+                        $.each(a.index, function(i, b) {
+                            $.each(b, function(j, c) {
+                                if (swatchid == c) {
+                                    var product_id = i;
+                                    var attribute_id = j;
+                                    var option_id = c;
+
+                                    $("#single_product_id").val(product_id);
+                                    arr.push(1);
+                                    arr.push({
+                                        product_id: i
+                                    });
+                                }
+                            });
+                        });
+                    });
+
+                    var product_id = arr[1].product_id;
+                    $("#single_product_id").attr('value', product_id);
+
+                } else {
+
+                    $("#single_product_id").attr('value', '');
+                }
+
+            });
+
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Webservices',
+                buttons: [{
+                    text: $.mage.__('Check availibility'),
+                    class: '',
+                    click: function() {
+                        var eventClick = this;
+                        var post_data = '';
+                        post_data = $('#form-webservices').serialize();
+
+                        $.ajax({
+                            showLoader: true,
+                            url: "<?php echo $this->getUrl().'storestock/product/configurable/'?>",
+                            data: post_data,
+                            type: "post",
+                            dataType: 'json',
+                            success: function(response) {
+                                console.log(response);
+                                var append = '';
+                                for (var i = 0; i < response.items.length; i++) {
+                                    append += '<p>' +
+                                        '<b>  SKU</b>: ' + response.items[i].sku +
+                                        '<b>  QTY</b>: ' + response.items[i].qty +
+                                        '</p>';
+                                }
+
+                                $(".modal-content").html('<div class"popup-mpdal">' + append + '</div>');
+
+                                $(".modal-footer").hide();
+                                $('.action-close').click(function() {
+                                    eventClick.closeModal();
+                                    window.location.reload();
+                                });
+                            },
+                            error: function(req, status, message) {
+                                alert('Unable to execute your request: \n' + message);
+                            }
+                        });
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-mpdal'));
+            $("#click-me").on('click', function() {
+                $("#popup-mpdal").modal("openModal");
+            });
+
+        });
+
+    }
+);
+</script>

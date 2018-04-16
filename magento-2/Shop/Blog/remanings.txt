@@ -1,0 +1,4 @@
+- limit post
+- auto delete cache when pages refresh
+- admin grid with delete and mass delete - ok
+- auto menu ( blog ) with breadcrumbs

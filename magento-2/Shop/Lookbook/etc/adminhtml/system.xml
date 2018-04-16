@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab 
+            id="lookbook_tab" 
+            translate="label" 
+            sortOrder="10">
+            <label>Lookbook</label>
+        </tab>
+        <section 
+            id="shop_lookbook" 
+            translate="label" 
+            sortOrder="130" 
+            showInDefault="1" 
+            showInWebsite="1" 
+            showInStore="1">
+            <class>separator-top</class>
+            <label>Lookbook</label>
+            <tab>lookbook_tab</tab>
+            <resource>Shop_Lookbook::config</resource>
+            <group 
+                id="general" 
+                translate="label" 
+                type="text" 
+                sortOrder="10" 
+                showInDefault="1" 
+                showInWebsite="1" 
+                showInStore="1">
+                <label>General Settings</label>
+                <field 
+                    id="enable" 
+                    translate="label" 
+                    type="select" 
+                    sortOrder="0" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field 
+                    id="min_slide" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="1" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Minimum Slide</label>
+                    <comment>Integer value. Minimum Slide in slider.</comment>
+                </field>
+                <field 
+                    id="max_slide" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="2" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Maximum Slide</label>
+                    <comment>Integer value. Maximum Slide in slider.</comment>
+                </field>
+                <field 
+                    id="min_image_width" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="3" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Minimal Image Width (px)</label>
+                    <comment>Integer value. Must be less then Maximal Image Width.</comment>
+                </field>
+                <field 
+                    id="min_image_height" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="4" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Minimal Image Height (px)</label>
+                    <comment>Integer value. Must be less then Maximal Image Height.</comment>
+                </field>
+                <field 
+                    id="max_image_width" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="5" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Maximal Image Width (px)</label>
+                    <comment>Integer value. Must be greater then Minimal Image Width.</comment>
+                </field>
+                <field 
+                    id="max_image_height" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="6" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Maximal Image Height (px)</label>
+                    <comment>Integer value. Must be greater then Minimal Image Height.</comment>
+                </field>
+                <field 
+                    id="max_upload_filesize" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="7" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Uploaded file max size (bytes)</label>
+                    <comment>Integer value. Must be less then upload_max_filesize and post_max_size in php.ini</comment>
+                </field>
+                <field 
+                    id="allowed_extensions" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="8" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Allowed extensions</label>
+                    <comment>Comma separated file extensions. Example, "jpg,gif,png"</comment>
+                </field>
+<!--            <field 
+                    id="effects" 
+                    translate="label" 
+                    type="multiselect" 
+                    sortOrder="9" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Effect</label>
+                    <source_model>Shop\Lookbook\Model\Config\Source\Effect</source_model>
+                    <comment>You can use more than one effect or leave empty to use the random effect.</comment>
+                </field> -->
+                <field 
+                    id="navigation" 
+                    translate="label" 
+                    type="select" 
+                    sortOrder="10" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Show navigation</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If YES the navigation button (prev, next and play/stop buttons) will be visible, if NO they will be always hidden.</comment>
+                </field>
+                <field 
+                    id="navigation_hover" 
+                    translate="label" 
+                    type="select" 
+                    sortOrder="11" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Navigation on hover state only</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If YES the navigation button (prev, next and play/stop buttons) will be visible on hover state only, if NO they will be visible always.</comment>
+                </field>
+                <field 
+                    id="thumbnails" 
+                    translate="label" 
+                    type="select" 
+                    sortOrder="12" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Show thumbnails</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If YES the thumbnails will be visible, if NO will show the pagination.</comment>
+                </field>
+                <field 
+                    id="pause" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="13" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Pause</label>
+                    <comment>Milliseconds between the end of the sliding effect and the start of the next one</comment>
+                </field>
+                <field 
+                    id="transition_duration" 
+                    translate="label" 
+                    type="text" 
+                    sortOrder="14" 
+                    showInDefault="1" 
+                    showInWebsite="1" 
+                    showInStore="1">
+                    <label>Transition duration</label>
+                    <comment>TLength of the sliding effect in milliseconds.</comment>
+                </field>
+                <field id="name" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Lookbook name</label>
+                    <comment>Lookbook name</comment>
+                </field>
+                <field id="url_prefix" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Route name</label>
+                </field>
+                <field id="toplinks" translate="label comment" type="select" sortOrder="20" showInDefault="20"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Lookbook Link in Top Menu</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            
+            </group>
+        </section>
+    </system>
+</config>

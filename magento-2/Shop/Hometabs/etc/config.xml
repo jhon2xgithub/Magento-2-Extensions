@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <shop_hometabs>
+            <!-- Tabs -->
+            <general>
+                <enabled>1</enabled>                 
+            </general>
+            <new>
+                <enabled>1</enabled>    
+                <title>New Products</title>
+                <product_count>10</product_count>    
+                <image_width>400</image_width>    
+                <image_height>450</image_height>
+            </new>
+            <best_selled>
+                <enabled>1</enabled>  
+                <title>Best Selled Products</title>  
+                <product_count>10</product_count>    
+                <image_width>400</image_width>    
+                <image_height>450</image_height>
+            </best_selled>
+            <gift_ideas>
+                <enabled>1</enabled>  
+                <title>Gift Ideas Products</title>  
+                <product_count>10</product_count>    
+                <image_width>400</image_width>    
+                <image_height>450</image_height>
+                <display_type>all_products</display_type>
+            </gift_ideas>
+            <custom>
+                <enabled>1</enabled>   
+                <!-- <category_name>Default Category</category_name>      -->
+            </custom>
+        </shop_hometabs>
+
+        <shop_owlcarousel>            
+            <!-- owl carousel -->
+            <new_tab>
+                <margin>10</margin>
+                <loop>0</loop>
+                <lazy_load>1</lazy_load>
+                <nav>1</nav>
+            </new_tab>
+            <best_selled_tab>
+                <margin>10</margin>
+                <loop>0</loop>
+                <lazy_load>1</lazy_load>
+                <nav>1</nav>
+            </best_selled_tab>
+            <giftideas_tab>
+                <margin>10</margin>
+                <loop>0</loop>
+                <lazy_load>1</lazy_load>
+                <nav>1</nav>
+            </giftideas_tab>    
+        </shop_owlcarousel>
+    </default>
+</config>

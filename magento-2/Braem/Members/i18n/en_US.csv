@@ -1,0 +1,88 @@
+Departments,Departments
+"Create New Department","Create New Department"
+"Save Department","Save Department"
+"Save and Continue Edit","Save and Continue Edit"
+"Delete Department","Delete Department"
+"Edit Department '%1'","Edit Department '%1'"
+"New Department","New Department"
+"Department Information","Department Information"
+Name,Name
+Department,Department
+ID,ID
+Position,Position
+Members,Members
+"Create New Member","Create New Member"
+"Save Member","Save Member"
+"Delete Member","Delete Member"
+"Edit Member '%1'","Edit Member '%1'"
+"New Member","New Member"
+"Member Information","Member Information"
+Image,Image
+Phone,Phone
+Email,Email
+Store,Store
+Languages,Languages
+Member,Member
+Regions,Regions
+Teams,Teams
+"Create New Region","Create New Region"
+"Save Region","Save Region"
+"Delete Region","Delete Region"
+"Edit Region '%1'","Edit Region '%1'"
+"New Region","New Region"
+"Region Information","Region Information"
+Region,Region
+"Create New Team","Create New Team"
+"Save Team","Save Team"
+"Delete Team","Delete Team"
+"Edit Team '%1'","Edit Team '%1'"
+"New Team","New Team"
+"Team Information","Team Information"
+Team,Team
+"The Department has been deleted.","The Department has been deleted."
+"Department to delete was not found.","Department to delete was not found."
+"This Department no longer exists.","This Department no longer exists."
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"The Department has been saved.","The Department has been saved."
+"Something went wrong while saving the Department.","Something went wrong while saving the Department."
+"The Member has been deleted.","The Member has been deleted."
+"Member to delete was not found.","Member to delete was not found."
+"This Member no longer exists.","This Member no longer exists."
+"The Member has been saved.","The Member has been saved."
+"Something went wrong while saving the Member.","Something went wrong while saving the Member."
+"The Region has been deleted.","The Region has been deleted."
+"Region to delete was not found.","Region to delete was not found."
+"This Region no longer exists.","This Region no longer exists."
+"The Region has been saved.","The Region has been saved."
+"Something went wrong while saving the Region.","Something went wrong while saving the Region."
+"The Team has been deleted.","The Team has been deleted."
+"Team to delete was not found.","Team to delete was not found."
+"This Team no longer exists.","This Team no longer exists."
+"The Team has been saved.","The Team has been saved."
+"Something went wrong while saving the Team.","Something went wrong while saving the Team."
+Home,Home
+"--Select a Store--","--Select a Store--"
+"Do not change the scope. %1","Do not change the scope. %1"
+Edit,Edit
+Delete,Delete
+"Delete ""${ $.$data.name }""","Delete ""${ $.$data.name }"""
+"Are you sure you wan't to delete the Department ""${ $.$data.name }"" ?","Are you sure you wan't to delete the Department ""${ $.$data.name }"" ?"
+"Are you sure you wan't to delete the Member ""${ $.$data.name }"" ?","Are you sure you wan't to delete the Member ""${ $.$data.name }"" ?"
+"Are you sure you wan't to delete the Region ""${ $.$data.name }"" ?","Are you sure you wan't to delete the Region ""${ $.$data.name }"" ?"
+"Are you sure you wan't to delete the Team ""${ $.$data.name }"" ?","Are you sure you wan't to delete the Team ""${ $.$data.name }"" ?"
+"Use Default Value","Use Default Value"
+"Select department","Select department"
+"Select region","Select region"
+Region:,Region:
+"Add New Department","Add New Department"
+"Delete Departments","Delete Departments"
+"Are you sure you wan't to delete selected Departments?","Are you sure you wan't to delete selected Departments?"
+"Add New Member","Add New Member"
+"Delete Members","Delete Members"
+"Are you sure you wan't to delete selected Members?","Are you sure you wan't to delete selected Members?"
+"Add New Region","Add New Region"
+"Delete Regions","Delete Regions"
+"Are you sure you wan't to delete selected Regions?","Are you sure you wan't to delete selected Regions?"
+"Add New Team","Add New Team"
+"Delete Teams","Delete Teams"
+"Are you sure you wan't to delete selected Teams?","Are you sure you wan't to delete selected Teams?"

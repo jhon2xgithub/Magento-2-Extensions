@@ -1,0 +1,130 @@
+<?php 
+//call helper
+$helper = $this->helper('\Shop\Catalog\Helper\Data');
+
+//checks if product type is, simple, configurable, bundle, group, download
+$block->getProduct()->getTypeId();
+
+//get the product id
+$productId = $block->getProduct()->getId();
+
+//get current product from this page
+$currentProduct = $this->getProduct();
+
+//get configurable child ids
+$configurableChildrenIds = $currentProduct->getTypeInstance()->getChildrenIds($currentProduct->getId());
+
+// instance to call model
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$loader = $objectManager->get('Magento\Catalog\Model\ProductFactory');
+
+// get image path
+$fileSystem = $objectManager->create('\Magento\Framework\Filesystem');
+$mediaPath=$fileSystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)->getAbsolutePath(); 
+
+//load all products and gets bundle type, this part it for bundle product type only
+$productCollection = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+$collection = $productCollection->create()
+      ->addAttributeToSelect('*')
+      ->load();
+
+$bundleChildSets = [];
+foreach ($collection as $product){ 
+   if($product->getTypeId() == 'bundle'){       
+
+      // get child parent bundle ids
+      $bundleChildSetsIds = $product->getTypeInstance()->getChildrenIds($product->getId());
+
+      foreach($bundleChildSetsIds as $bundleChildSetsId){ 
+       
+         foreach ($bundleChildSetsId as $id) {
+            $bundleChildSets[] = $id;
+         }
+      }  
+
+      // get bundle child lists data
+      $bundle = $helper->getBundleProductOptionsData($product->getId());
+                     
+      foreach($bundle->getData() as $_selection){     
+         $entity_id[] = $_selection['entity_id'];
+         $parent_product_id[] = $_selection['parent_product_id'];     
+      }
+
+      $parentarr = array_combine($entity_id, $parent_product_id);
+  
+   }  
+}  
+?>
+<div class="promoset-list">
+   <div class="box-collateral">
+      <h4><a href=""><?php echo $block->getProduct()->getName(); ?></a></h4>
+      <p class="availability in-stock"><span>In stock</span></p>
+      <div class="promoset-list-product">
+         <div class="promoset-list-product-items" style="float:left; clear:none;">
+            <?php 
+               $parentarrid=[];             
+               foreach($configurableChildrenIds as $configurableChildrenId):                  
+                  foreach ($configurableChildrenId as $product_id):
+                     if(in_array($product_id, $bundleChildSets, true)):
+    
+                        $product =$loader->create()->load($product_id);
+                        if($product):     
+
+                           //this is child product id
+                           $productId = $product->getId(); 
+                           $allowed = array($productId); 
+                     
+                           foreach(array_intersect_key(array_unique($parentarr), array_flip($allowed)) as $parentid) {
+                              $parentarrid['id'] =$parentid;                              
+                           }
+                                         
+                           $imgUrl = $this->getUrl().'pub/media/catalog/product'.$product->getData('thumbnail');?>                    
+                           <a href="javascript:void(0)" title="Plaid Cotton Shirt-Red-M" class="list-image">               
+                              <img src="<?php echo $imgUrl;?>" width="80" height="80" alt="">
+                           </a>
+                           <span class="promoset-plus">+</span>
+                        <?php    
+                        endif;
+                     endif;  
+                  endforeach;             
+               endforeach;               
+            ?>
+         </div>              
+
+         <div class="promoset-cart">        
+            
+            <form data-role="tocart-form" action="<?php echo $this->getUrl('custom_bundle/index/addproductbundletocart'); ?>" method="post"> 
+               <input type="hidden" name="product" value="<?php echo $parentarrid['id'];?>">
+               <input type="hidden" name="selected_configurable_option" value="">
+               <input type="hidden" name="related_product" value="">   
+               <?php $bundlepost = $helper->getBundleProductOptionsData($parentarrid['id']); ?>            
+               <?php 
+                
+               foreach($bundlepost->getData() as $selection):                        
+                  $price[] = $selection['price'] * $selection['selection_qty'];
+               ?>
+               <div class="field choice">
+                  <input class="bundle-option-<?php echo $selection['parent_product_id']; ?> checkbox product bundle option change-container-classname"
+                      id="bundle-option-<?php echo $selection['parent_product_id']; ?>-<?php echo $selection['selection_id']; ?>"
+                      type="hidden"
+                      name="bundle_option[<?php echo $selection['option_id']; ?>][<?php echo $selection['product_id']; ?>]"
+                      data-selector="bundle_option[<?php echo $selection['product_id']; ?>][<?php echo $selection['product_id']; ?>]"                          
+                      value="<?php echo $selection['selection_id']; ?>"/>              
+               </div>
+               <?php endforeach; ?>
+               <input type="hidden" name="qty" value="1">
+               <div class="price-box">               
+                  <p class="special-price">
+                     <span class="price-label">Price</span>
+                     <span class="price" id="product-price-932"><?php echo $this->helper('Magento\Framework\Pricing\Helper\Data')->currency(array_sum($price),true,false); ?>  </span>
+                  </p>
+               </div>  
+               <button type="submit" title="Add to Cart" class="action tocart primary"><span>Add to Cart</span></button>
+            
+             </form>
+         </div>   
+      </div>
+   </div>
+</div>
+
+

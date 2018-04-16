@@ -1,0 +1,57 @@
+<?php
+/** @var $block \Shop\Blog\Block\Bloglist */
+
+$block->run();
+
+if($block->getEnabled()): ?>
+
+	<div class="blog_index_wrapper">
+		<?php
+		$data = $block->getCollection(); 
+		$i = 0;
+		foreach($data as $bloginfo):
+			$j = $i++;?>
+	
+			<div class="blog_index_column">
+				<!-- image -->
+				<div class="post-image">
+					<a href="<?=$data[$j]['link'];?>">
+						<img class="img-responsive" src="https://dummyimage.com/659.19x396.98/dcdcdc/000.png" alt="">
+					</a>
+				</div>
+				<!-- / -->
+		      	<h2 class="post-title">
+		         	<a class="post-item-link" href="<?=$data[$j]['link'];?>" target="__blank">
+		            	<h2><?=$data[$j]['title'];?></h2>
+		         	</a>
+		      	</h2>
+		      	<div class="blog_index_desc">
+		         	<div class="item">	
+		            	<div class="post-posed-date">
+		               		<span class="label">Posted:</span>
+		               		<span class="value"><?=$data[$j]['pubDate'];?></span>
+		               		
+		            	</div>
+		           	  	            	
+		         	</div>
+		         	<p><?=$data[$j]['description']; ?></p>
+		      	</div>
+		   </div>
+
+		<?php	
+		endforeach; 
+	?>	
+	</div>
+<?php endif; ?>
+<script type="text/javascript">
+// <![CDATA[
+  require([
+    'jquery'
+  ], function ($) {
+
+    // $('.blog_index_wrapper .blog_index_column:nth-child(3n+0)').addClass('full-width-div');
+    $("[href]").attr('target', '__blank')
+
+  });
+// ]]>    
+</script>

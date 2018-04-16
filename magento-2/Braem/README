@@ -1,0 +1,22 @@
+DOCUMENTATION
+
+1. to work the translation you must register your website here. https://translate.google.com/manager/website/add
+
+and get the function google translate and paste to line 138 in view.phtml file
+there's existing function but if the function are not equal paste the function from the said url
+
+ex: 
+at line 138, view\frontend\templates\team\view.phtml
+  function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+            {pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 
+            'google_translate_element'
+        );        
+    }
+
+2. to make the translation csv working from braems/members/i18n
+  run this to command line , sppend the name of the csv file sample nl_NL is DUTCH
+	do this again to other after created the another store views
+ex: 
+ php bin/magento setup:static-content:deploy nl_NL
+

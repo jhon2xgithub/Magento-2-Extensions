@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<!--<referenceContainer
+			name="product.info.media">
+            <block
+            	class="Magento\Catalog\Block\Product\View"
+            	after="-"
+            	template="Shop_Lookbook::product-details.phtml"/>
+
+        </referenceContainer>-->
+        
+	</body>
+</page>

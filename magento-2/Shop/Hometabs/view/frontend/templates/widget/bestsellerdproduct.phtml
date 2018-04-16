@@ -1,0 +1,208 @@
+<?php 
+if ($exist = ($this->getBestsellerProduct() && $this->getBestsellerProduct()->getPageSize())) {
+    $fet_prodcollection = $this->getBestsellerProduct();
+    $productcount = $this->getProductLimit();
+    $imagewidth = $this->getProductimagewidth();
+    $imageheight = $this->getProductimageheight();
+    $mode = 'grid';
+    $title = __('Bestseller Products');
+    $type = 'widget-bestseller-grid';
+    $image = 'bestseller_products_content_widget_grid';
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
+    $description = false;
+
+    $helper = $this->helper('\Shop\Hometabs\Helper\Data');   
+    $margin     = $helper->getBestSelledOwlCarouselMargin();
+    $loop       = $helper->getBestSelledOwlCarouselLoop(); 
+    $lazy_load  = $helper->getBestSelledOwlCarouselLazyLoad(); 
+    $nav        = $helper->geBestSelledOwlCarouselNav(); 
+}
+?>
+<?php if ($exist):    
+  
+    // load  products by category id
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+    $cateinstance = $objectManager->create('Magento\Catalog\Model\CategoryFactory');
+    $cateid = $this->getCustomCategoryIdByName(); 
+    $allcategoryproduct = $cateinstance->create()->load($cateid)->getProductCollection()->addAttributeToSelect('*');
+    
+    $product_ids = []; 
+    foreach ($allcategoryproduct->getData() as $np_item) {
+
+        if($np_item['type_id'] == 'configurable'){
+            //parent product id
+            $parent_id = $np_item['entity_id']; 
+            $childObj = $block->getConfigChildProductIds($parent_id);
+            foreach ($childObj as $child){                 
+               $getChildId[] = $child->getData();
+            }
+            //childrens
+            for ($i=0; $i < count($getChildId); $i++) {                
+                $product_ids[] = $getChildId[$i]['entity_id'];
+            }         
+        }
+    }
+  
+    $request_id = [];
+    $iterator = 1;
+    // checks if one of all products from best selled exists on selected category id
+    foreach ($fet_prodcollection as $item):      
+  
+        if(in_array($item->getProductId(), $product_ids)){            
+            // this is child product id
+            $productId = $item->getProductId(); 
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $product = $objectManager->create('Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable')->getParentIdsByChild($productId);
+            if(isset($product[0])){
+                //this is parent product id                 
+                $request_id[] =$product[0];
+            }else{
+                // simple products
+                $request_id[] = $productId;
+            }  
+        }
+        
+    endforeach; 
+
+    ?>
+
+    <div class="block widget block-bestseller-products <?php /* @escapeNotVerified */ echo $mode; ?>">
+        <div class="block-title">
+            <strong role="heading" aria-level="2"><?php /* @escapeNotVerified */ echo $title; ?></strong>
+        </div>
+        <div class="block-content">
+            <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
+            <div class="owl-carousel owl-theme">
+                <!-- <ol class="product-items <?php /* @escapeNotVerified */ echo $type; ?>"> -->
+                <?php $iterator = 1; ?>
+                <?php foreach (array_unique($request_id) as $item_id):     
+                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                        $_product = $objectManager->get('Magento\Catalog\Model\Product')->load($item_id);
+                ?>   
+        
+                  
+                        <div class="product-item-info item">
+                        <?php 
+                        
+                            $image_url = $block->imageHelperObj()->init($_product, 'product_page_image_small')
+                                ->setImageFile($_product->getFile())
+                                ->resize($imagewidth,$imageheight)
+                                ->getUrl();
+                                
+                        ?>
+                            <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product-item-photo">
+                                <img src="<?php echo  $image_url;?>" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" />
+                            </a>
+                            <div class="product-item-details">
+                                <strong class="product-item-name">
+                                    <a title="<?php echo $block->escapeHtml($_product->getName()) ?>"
+                                       href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>"
+                                       class="product-item-link">
+                                        <?php echo $block->escapeHtml($_product->getName()) ?>
+                                    </a>
+                                </strong>
+                                    <?php
+                                    echo $block->getProductPriceHtml($_product, $type);
+                                    ?>
+
+                                    <?php if ($templateType): ?>
+                                        <?php echo $block->getReviewsSummaryHtml($_product, $templateType) ?>
+                                    <?php endif; ?>
+
+                                    <?php if ($showWishlist || $showCompare || $showCart): ?>
+                                        <div class="product-item-actions">
+                                            <?php if ($showCart): ?>
+                                                <div class="actions-primary">
+                                                    <?php
+                                                        $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                                        $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_product), ['product' => $_product->getEntityId()])
+                                                    ?>
+                                                    <?php if ($_product->isSaleable()): ?>
+                                                        <?php if ($_product->getTypeInstance()->hasRequiredOptions($_product)): ?>
+                                                            <button class="action tocart primary"
+                                                                    data-post='<?php /* @escapeNotVerified */ echo $postData; ?>'
+                                                                    type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                            </button>
+                                                        <?php else: ?>
+                                                           
+                                                            <button class="action tocart primary"
+                                                                    data-post='<?php /* @escapeNotVerified */ echo $postData; ?>'
+                                                                    type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                            </button>
+                                                        <?php endif; ?>
+                                                    <?php else: ?>
+                                                        <?php if ($_product->getIsSalable()): ?>
+                                                            <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+                                                        <?php else: ?>
+                                                            <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($showWishlist || $showCompare): ?>
+                                                <div class="actions-secondary" data-role="add-to-links">
+                                                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                                        <a href="#"
+                                                           data-post='<?php /* @escapeNotVerified */ echo $block->getAddToWishlistParams($_product); ?>'
+                                                           class="action towishlist" data-action="add-to-wishlist"
+                                                           title="<?php /* @escapeNotVerified */ echo __('Add to Wish List') ?>">
+                                                            <span><?php /* @escapeNotVerified */ echo __('Add to Wish List') ?></span>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                    <?php if ($block->getAddToCompareUrl() && $showCompare): ?>
+                                                        <?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');?>
+                                                        <a href="#" class="action tocompare"
+                                                           data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_item);?>'
+                                                           title="<?php /* @escapeNotVerified */ echo __('Add to Compare') ?>">
+                                                            <span><?php /* @escapeNotVerified */ echo __('Add to Compare') ?></span>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>            
+                            </div>    
+                        </div>                       
+                  
+                <?php endforeach ?>
+              
+            </div>
+        </div>
+    </div>        
+    <script>
+    // <![CDATA[ 
+    require([
+        "jquery",
+    ], function($) {
+        'use strict';
+        $(document).ready(function() {
+            var owl = $('.owl-carousel');
+            owl.owlCarousel({
+                margin: <?php echo $margin;?>,
+                nav: <?php echo (count($nav)>0)? "true": "false"; ?>,
+                loop: false, //<?php echo (count($loop)==0)? "false": "true"; ?>,
+                lazyLoad: <?php echo (count($lazy_load)>0)? "true": "false"; ?>,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
+            })
+        })
+    });
+    // ]]>      
+    </script>
+<?php endif;?>
+

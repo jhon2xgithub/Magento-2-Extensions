@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add 
+        	id="Shop_Homepromo::homepromo" 
+        	title="Promo" 
+        	module="Shop_Homepromo" 
+        	sortOrder="100" 
+        	parent="Magento_Catalog::catalog" 
+        	resource="Shop_Homepromo::homepromo" 
+        	action="homepromo/homepromo"/><!-- see admin front name -->
+
+      <!--   <add 
+            id="Shop_Homepromo::homepromo_configuration" 
+            title="Promo Configuration" 
+            module="Shop_Homepromo" 
+            sortOrder="99" 
+            parent="Shop_Homepromo::homepromo" 
+            action="adminhtml/system_config/edit/section/homepromo" 
+            resource="Shop_Homepromo::homepromo_configuration"/> -->
+    </menu>
+</config>

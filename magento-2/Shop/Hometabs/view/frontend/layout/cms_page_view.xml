@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Shop_Hometabs::css/tabs.css" />  
+        <css src="Shop_Hometabs::css/custom.css" />  
+        <css src="Shop_Hometabs::css/assets/owl.carousel.min.css" />  
+        <css src="Shop_Hometabs::css/assets/owl.theme.default.min.css" />  
+    
+        <script src="Shop_Hometabs::js/vendors/jquery.min.js"></script>
+        <script src="Shop_Hometabs::js/owlcarousel/owl.carousel.js"></script>
+    </head> 	
+    <body>
+        <referenceContainer name="content">
+            <!-- use after and before to position -->
+            <block class="Shop\Hometabs\Block\Tabs" template="Shop_Hometabs::home/tabs.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

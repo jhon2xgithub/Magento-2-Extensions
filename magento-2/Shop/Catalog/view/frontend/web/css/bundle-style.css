@@ -1,0 +1,36 @@
+.box-collateral {
+    clear: both;
+}
+
+h4, .h4 {
+    margin: 0;
+    margin-bottom: 10px;
+    color: #636363;
+    font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    line-height: 1.4;
+    text-rendering: optimizeSpeed;
+    text-transform: uppercase;
+}
+.availability.in-stock {
+    color: #11b400;
+}
+.promoset-list .promoset-list-product {
+    border: #CCC solid 1px;
+    overflow: hidden;
+}
+.promoset-list .promoset-list-product .promoset-list-product-items {
+    overflow: hidden;
+}
+
+.promoset-plus{
+   color: #FFA500;
+}
+.promoset-list .promoset-list-product .promoset-cart {
+    float: right;
+    clear: none;
+    width: 150px;
+    margin-top: 10px;
+}

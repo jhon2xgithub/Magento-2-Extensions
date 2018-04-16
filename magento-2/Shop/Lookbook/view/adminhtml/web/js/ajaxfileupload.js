@@ -1,0 +1,1 @@
+alert('ajax file upload call')

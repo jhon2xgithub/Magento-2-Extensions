@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<config 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference 
+    	for="Magento\Framework\File\Uploader" 
+    	type="Shop\Lookbook\File\Uploader" />
+	<!-- 
+	<preference 
+		for="Magento\Catalog\Block\Product\View" 
+		type="Shop\Lookbook\Block\Catalog\Product\View" /> -->
+	<type name="Magento\Theme\Block\Html\Topmenu">
+        <plugin name="shop-lookbook-topmenu" type="Shop\Lookbook\Plugin\Topmenu" />
+    </type>	
+</config>

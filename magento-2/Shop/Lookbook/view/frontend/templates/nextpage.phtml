@@ -1,0 +1,369 @@
+<?php
+
+
+// sku parameters from controller
+$parameter_id = $block->getlookbookid();
+
+//instance of\Magento\Framework\App\ObjectManager
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currentStore = $storeManager->getStore();
+
+$helper = $this->helper('\Shop\Lookbook\Helper\Data');
+
+if ($helper->getEnabled()) :
+
+    $data = $block->getCollection();
+
+    if(in_array($parameter_id, array_column($data, 'id'))) { // search value in the array
+
+      // get the parent key based on values from multidimensional array
+      $parent_key = $block->searchparentkey($parameter_id,$data);
+     
+      $max_slide = $helper->getMaxSlide();
+      $min_slide = $helper->getMinSlide();
+      $width = $helper->getMaxImageWidth();
+      $height = $helper->getMaxImageHeight();
+      $height_procent = $height/$width*100;
+      $thumb_width = intval($width/($height/100));
+      $effects = $helper->getEffects();
+      if (!$effects || $effects=='') $effects = 'random';
+      $navigation = ($helper->getNavigation()==1) ? 'true' : 'false';
+      $navigationHover = ($helper->getNavigationHover()==1) ? 'true' : 'false';
+      $thumbnails = ($helper->getThumbnails()==1) ? 'true' : 'false';
+      $pause = ($helper->getPause()) ? $helper->getPause() : 7000;
+      $trans_period = ($helper->getTransitionDuration()) ? $helper->getTransitionDuration() : 1500;
+      $productUrls = array();
+      $productSort = array();
+
+      if (count($data) >0) : 
+
+          ?>
+
+          <div class="bxslider_container">
+            <!-- The main images -->
+            <ul class="bxslider" id="bxslider" data-id="<?=$parameter_id;?>">
+
+              <?php 
+                for($x = 0; $x < count($data); $x++) { 
+
+                  if($data[$x] != '' && $data[$x]['status'] == 1) { 
+
+                    $sku_from_array =  $data[$x]['sku'];
+
+                    if(strpos($sku_from_array, ',') !== false){
+                     
+                      $skudata = explode(',', $sku_from_array);
+                      $sku = $skudata[0]; //first sku in array
+
+                      $_product = $block->getProductBySku($sku);
+
+                    }else{
+
+                      $sku = $sku_from_array;
+                      $_product = $block->getProductBySku($sku);
+                    
+                    }
+
+                    $view_img = $helper->getResizedUrl($data[$x]['image']);
+
+                    if(count($_product)>0){ ?>
+                      <li>                             
+                          
+                        <div class="p-img">
+                          <img src="<?php echo $view_img; ?>" alt=""/>
+                        </div>
+                        <div class="p-configurable">                          
+                          <?php 
+                      
+                            $skusArrayLists = explode(',', $sku_from_array);                        
+
+                            if(in_array($sku, $skusArrayLists)){                          
+                              
+                              if(strpos($sku_from_array, ',') !== false){
+                               
+                                foreach (explode(',', $sku_from_array) as $key => $sku_value) {
+
+                                  $id         = $block->getProductBySku($sku_value)->getId();
+                                  $sku        = $block->getProductBySku($sku_value)->getSku();
+                                  $name       = $block->getProductBySku($sku_value)->getName();
+                                  $price      = $block->getProductBySku($sku_value)->getPrice();                         
+
+                                  $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                  $product = $objectManager->create('Magento\Catalog\Model\Product')->load($id);  
+
+                                  $images = $product->getMediaGalleryImages();  
+                                  ?>
+                                  <div class="config-container">
+                                    <div class="config-secondary-images">
+                                        <div class="config-head-img head-right">&nbsp;</div>
+                                        <div class="config-title head-title-left"><?php echo $name; ?></div>
+                                    </div>
+                                    <div class="config-price">&nbsp;</div>
+                                    <div class="spacer"></div>    
+                                    <div class="config-secondary-images">
+                                    <?php
+                                        $i = 0;
+                                        $len = count($images);
+                                        foreach($images as $x_c =>$child){ 
+
+                                          if ($i == 0) { ?>
+                                                
+                                          <div class="config-head-img"><img src="<?php echo $child->getUrl(); ?>" alt="" width="100" heigh="100"/></div>
+
+                                          <?php     
+                                          }else{ 
+
+                                          ?>                                     
+
+                                          <div class="secondary-images">
+                                            <img src="<?php echo $child->getUrl(); ?>" alt="<?=$x_c;?>" width="50" heigh="50"/>
+                                          </div>
+
+                                    <?php 
+                                          }
+                                            $i++;
+
+                                        } ?>
+                                    </div>
+                                   
+                                    
+                                    <?php 
+
+
+                                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of Object Manager
+                                    $priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
+                                    $formattedPrice = $priceHelper->currency($price, true, false);
+                                    ?>
+                                    
+                                    <div class="config-price"><?php echo $formattedPrice; ?></div>
+                                    <div class="spacer"></div>
+                                  </div>
+                                 
+
+                                  <?php 
+
+                                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+                                    $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+
+                                    $addToCartUrl =  $listBlock->getAddToCartUrl($product); ?>
+
+                                    <form data-role="tocart-form" action="<?php echo $addToCartUrl; ?>" method="post"> 
+
+                                      <?php echo $block->getBlockHtml('formkey')?>                                    
+
+                                        <div class="addtocartbtn">
+                                          <div class="config-btn trans-bg">&nbsp;</div>
+                                          <div class="config-btn">
+                                            <button type="submit" title="Add to Cart" class="add-to-cart">
+                                              <span>A JOUTER AU PANIER</span> 
+                                            </button>
+                                          </div>
+                                        </div>
+                                   </form>                     
+                                  <?php     
+
+                                }
+
+                              }else{
+
+                                $sku_value = $sku_from_array;
+
+                                $id         = $block->getProductBySku($sku_value)->getId();
+                                $sku        = $block->getProductBySku($sku_value)->getSku();
+                                $name       = $block->getProductBySku($sku_value)->getName();
+                                $price      = $block->getProductBySku($sku_value)->getPrice();                           
+
+                                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                $product = $objectManager->create('Magento\Catalog\Model\Product')->load($id);        
+                                $images = $product->getMediaGalleryImages();  
+                                
+                               
+                                ?>
+                                <div class="config-container">
+                                  <div class="config-secondary-images">
+                                      <div class="config-head-img head-right">&nbsp;</div>
+                                      <div class="config-title head-title-left"><?php echo $name; ?></div>
+                                  </div>
+                                  <div class="config-price">&nbsp;</div>
+                                  <div class="spacer"></div>
+                                  <div class="config-secondary-images">
+                                  
+                                  <?php
+                                      $i = 0;
+                                      $len = count($images);
+                                      foreach($images as $x_c =>$child){ 
+
+                                        if ($i == 0) { ?>
+                                              
+                                        <div class="config-head-img"><img src="<?php echo $child->getUrl(); ?>" alt="" width="100" heigh="100"/></div>
+
+                                        <?php     
+                                        }else{ 
+
+                                        ?>                                     
+
+                                        <div class="secondary-images">
+                                          <img src="<?php echo $child->getUrl(); ?>" alt="<?=$x_c;?>" width="50" heigh="50"/>
+                                        </div>
+
+                                  <?php 
+                                        }
+                                          $i++;
+
+                                      } ?>
+
+
+                                  </div>
+
+
+                                  <?php 
+
+
+                                  $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of Object Manager
+                                  $priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
+                                  $formattedPrice = $priceHelper->currency($price, true, false);
+                                  ?>
+                                 
+                                  <div class="config-price"><?php echo $formattedPrice; ?></div>
+                                  <div class="spacer"></div>
+                                </div>
+                                
+                                <?php 
+
+                                  $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+                                  $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+
+                                  $addToCartUrl =  $listBlock->getAddToCartUrl($product); ?>
+
+                                  <form data-role="tocart-form" action="<?php echo $addToCartUrl; ?>" method="post"> 
+
+                                    <?php echo $block->getBlockHtml('formkey')?>                                    
+
+                                      <div class="addtocartbtn">
+                                        <div class="config-btn trans-bg">&nbsp;</div>
+                                        <div class="config-btn">
+                                          <button type="submit" title="Add to Cart" class="add-to-cart">
+                                            <span>A JOUTER AU PANIER</span> 
+                                          </button>
+                                        </div>
+                                      </div>
+                                 </form>        
+                                
+                                <?php
+
+                              }
+                             
+
+                            }
+
+                          ?> 
+
+                          </div>
+                        </li>    
+                    <?php 
+                    }else{
+
+                      ?>
+
+                      <li>
+                        <a href="#" count="<?=$x;?>">
+                          <img src="<?php echo $view_img; ?>" alt=""/>
+                        </a>
+                      </li> 
+
+                      <?php 
+
+
+                    }
+
+                  }
+
+                }
+
+
+              ?>
+
+
+
+            </ul>
+            <br/>
+            <!-- set pager -->
+            <ul id="bxslider-pager">
+                <?php for($x = 0; $x < count($data); $x++) { ?>
+                    <?php
+                    if($data[$x] != '' && $data[$x]['status'] == 1) {
+
+                        $imgNew = $data[$x];
+                        ?>
+                        <li>
+                            <a data-slide-index="<?=$x;?>" href="">
+                               <img src="<?php echo $helper->getResizedUrl($data[$x]['image']);?>" alt=""/>
+                            </a>
+                        </li>
+                        <?php
+                    }
+
+
+                } ?>
+            </ul>
+            <!-- end pager -->
+          </div>
+      <?php endif; ?>
+      <script>
+          // <![CDATA[
+          require([
+              'jquery',
+              'jqueryNoConflict',
+              'jquerybxslider',
+              'jquerybxslidermin'
+
+          ], function ($) {
+
+            slider = $('.bxslider').bxSlider({
+
+                minSlides: <?=$min_slide;?>, // 1
+                maxSlides: 1, 
+                slideWidth: <?=$width; ?>, //620
+                slideMargin: 0, 
+                pagerCustom: 'ul#bxslider-pager',
+                preloadImages: 'visible',
+                hideControlOnEnd: true,
+                startSlide: <?=$parent_key;?> //slides based on the parameter id, lookbook id 
+
+            });
+
+            // slider.goToSlide(0);
+
+            $("ul#bxslider-pager").bxSlider({
+                minSlides: 1,
+                maxSlides: 14,
+                slideWidth: 180,
+                slideMargin: 0,
+                //moveSlides: 1,
+                pager: false,
+                speed: 1000,
+                //  auto: false,
+                infiniteLoop: false, // set to false to avoid duplicate image
+                hideControlOnEnd: false,
+                nextText: '<span>Next</span>',
+                prevText: '<span>Prev</span>',
+                useCSS: false,
+
+            });
+
+          });
+          // ]]>
+      </script>
+
+    <?php 
+    
+      }else {
+
+        echo "Page Not Found";
+      }  
+
+endif; ?>

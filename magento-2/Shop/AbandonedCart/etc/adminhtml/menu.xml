@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Shop_AbandonedCart::abandonedcart_menu"
+             title="Abandoned Cart"
+             module="Shop_AbandonedCart"
+             sortOrder="30"
+             dependsOnModule="Shop_AbandonedCart"
+             resource="Shop_AbandonedCart::main_menu"
+        />
+        <add id="Shop_AbandonedCart::config_menu"
+             title="Configuration"
+             module="Shop_AbandonedCart"
+             sortOrder="10"
+             resource="Shop_AbandonedCart::config_abandonedcart"
+             parent="Shop_AbandonedCart::abandonedcart_menu"
+             action="adminhtml/system_config/edit/section/abandonedcart"
+        />
+        <add id="Shop_AbandonedCart::listcart"
+             title="Abandoned Orders"
+             module="Shop_AbandonedCart"
+             sortOrder="20"
+             resource="Shop_AbandonedCart::stores_grid"
+             parent="Shop_AbandonedCart::abandonedcart_menu"
+             action="abandonedcart/listcart"
+        />  
+      
+    </menu>
+</config>
+

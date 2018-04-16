@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Braem\Members\Block\Adminhtml\Member\Edit" name="braem_members_member_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Braem\Members\Block\Adminhtml\Member\Edit\Tabs" name="braem_members_member_tabs">
+                <block class="Braem\Members\Block\Adminhtml\Member\Edit\Tab\Member" name="braem_members_member_edit_tab_member"/>
+                <block class="Braem\Members\Block\Adminhtml\Member\Edit\Tab\Region" name="braem_members_member_edit_tab_region"/>
+                <block class="Braem\Members\Block\Adminhtml\Member\Edit\Tab\Department" name="braem_members_member_edit_tab_department"/>
+                <block class="Braem\Members\Block\Adminhtml\Member\Edit\Tab\Team" name="braem_members_member_edit_tab_team"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">member</argument>
+                    <argument name="block" xsi:type="string">braem_members_member_edit_tab_member</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">region</argument>
+                    <argument name="block" xsi:type="string">braem_members_member_edit_tab_region</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">department</argument>
+                    <argument name="block" xsi:type="string">braem_members_member_edit_tab_department</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">team</argument>
+                    <argument name="block" xsi:type="string">braem_members_member_edit_tab_team</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Braem_Members::members" title="Members" module="Braem_Members" sortOrder="60" resource="Braem_Members::members" parent="Magento_Backend::content"/>
+        <add id="Braem_Members::member" title="Members" module="Braem_Members" sortOrder="10" action="braem_members/member" resource="Braem_Members::member" parent="Braem_Members::members"/>
+        <add id="Braem_Members::region" title="Regions" module="Braem_Members" sortOrder="20" action="braem_members/region" resource="Braem_Members::region" parent="Braem_Members::members"/>
+        <add id="Braem_Members::department" title="Departments" module="Braem_Members" sortOrder="30" action="braem_members/department" resource="Braem_Members::department" parent="Braem_Members::members"/>
+        <add id="Braem_Members::team" title="Teams" module="Braem_Members" sortOrder="40" action="braem_members/team" resource="Braem_Members::team" parent="Braem_Members::members"/>
+    </menu>
+</config>

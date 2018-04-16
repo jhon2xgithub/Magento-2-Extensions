@@ -1,0 +1,55 @@
+//How to install the language package in Magento 2 downloaded from Crowdin
+https://www.youtube.com/watch?v=p5dVRnkuBQQ
+
+
+https://crowdin.com/project/magento-2
+107.170.242.99/var - path for DUTCH Language
+
+https://www.youtube.com/watch?v=wtVperaeOac
+
+https://github.com/Imaginaerum/magento2-language-fr-fr
+
+//https://github.com/mageplaza/magento-2-german-language-pack
+mageplaza/magento-2-german-language-pack
+
+
+//test translator
+ run this on cmd
+ C:\xampp\htdocs\shop-2.1.0>php bin/magento i18n:collect-phrases -o app/code/braem/members/i18n/en_US.csv app/code/braem/members/
+
+ //Translations overview
+ http://devdocs.magento.com/guides/v2.0/frontend-dev-guide/translations/xlate.html
+
+
+//responsive images 
+http://mcdlr.com/responsive-thumbnails/
+https://internetingishard.com/html-and-css/responsive-images/
+
+
+
+//registry
+https://magento.stackexchange.com/questions/107790/magento2-creating-the-registry-in-controller-getting-the-same-registry-in-blo
+https://www.mageplaza.com/magento-2-registry-register.html
+
+
+
+
+
+//Error: “Object DOMDocument should be created.
+
+5
+down vote
+accepted
+Looks like var/generation is not writable. Make sure to set proper file system ownership and permissions: var, app/etc and pub/static should be writable by web server.
+
+
+
+//Google Web Interface and Search Language Codes
+https://sites.google.com/site/tomihasa/google-language-codes
+
+//echo query
+
+$collection->getSelect()->assemble();
+$collection->getSelect()->__toString();     
+
+file_put_contents('./log_getSelectedDepartmentsCollection_'.date("j.n.Y").'.txt', $collection->getSelect(), FILE_APPEND);

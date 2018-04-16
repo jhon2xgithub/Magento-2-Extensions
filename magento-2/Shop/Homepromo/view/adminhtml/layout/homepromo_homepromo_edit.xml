@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Shop\Homepromo\Block\Adminhtml\Homepromo\Edit" name="homepromo_homepromo_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Shop\Homepromo\Block\Adminhtml\Homepromo\Edit\Tabs" name="homepromo_homepromo_edit_tabs">
+                <block class="Shop\Homepromo\Block\Adminhtml\Homepromo\Edit\Tab\Main" name="homepromo_homepromo_edit_tab_main"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">homepromo_homepromo_edit_tab_main</argument>
+                </action>
+             
+                <!-- This code is added for products grid -->          
+               
+                <!-- topdesventes -->
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">attachment_topdesventes</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Select Topdesventes</item>
+                        <item name="title" xsi:type="string">Select Topdesventes</item>
+                        <item name="url" xsi:type="helper" helper="Shop\Homepromo\Helper\Data::getTopdesventesGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+
+                <!-- ideescadeaux -->
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">attachment_ideescadeaux</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Select Ideescadeaux</item>
+                        <item name="title" xsi:type="string">Select Ideescadeaux</item>
+                        <item name="url" xsi:type="helper" helper="Shop\Homepromo\Helper\Data::getIdeescadeauxGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+
+                <!-- nauveautes -->
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">attachment_nauveautes</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Select Nauveautes</item>
+                        <item name="title" xsi:type="string">Select Nauveautes</item>
+                        <item name="url" xsi:type="helper" helper="Shop\Homepromo\Helper\Data::getNauveautesGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+
+            </block>
+        </referenceContainer>
+    </body>
+</page>

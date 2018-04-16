@@ -1,0 +1,74 @@
+<?php 
+if($block->getEnabled()):
+
+	$username = $block->getUsername();
+	$getInstagramUrl=$block->getInstagramUrl();
+	$url_path="{$getInstagramUrl}{$username}/media/";
+	$json = file_get_contents($url_path);
+
+	$obj = json_decode($json, true);
+
+	$id = $obj['items'][0]['user']['id'];  
+	$full_name = $obj['items'][0]['user']['full_name'];  
+	$profile_picture = $obj['items'][0]['user']['profile_picture'];  
+	?>
+	<div class="container">
+		<div id="sb_instagram" class="sbi sbi_col_3 sbi_small" style="width:100%; padding-bottom: 10px; " data-id="<?= $id?>" data-num="6" data-res="auto" data-cols="3" data-options="{&quot;sortby&quot;: &quot;none&quot;, &quot;headercolor&quot;: &quot;&quot;, &quot;imagepadding&quot;: &quot;5&quot;}">
+		   <div class="sb_instagram_header" style="padding: 10px; padding-bottom: 0;">
+		      <a href="http://instagram.com/<?=$username; ?>" target="_blank" title="@<?= strtolower($full_name); ?>" class="sbi_header_link">
+		         <div class="sbi_header_text">
+		            <h3>@<?= strtolower($full_name); ?></h3>	         
+		         </div>
+		         <div class="sbi_header_img">
+		            <div class="sbi_header_img_hover"><i></i></div>
+		            <img src="<?= $profile_picture; ?>" alt="<?=$full_name; ?>" width="50" height="50">
+		         </div>
+		      </a>
+		   	</div>		
+		</div>
+		<ul class="gallery">  			
+			<?php foreach ($obj['items'] as $item):    	
+		   		$id = $item['id']; 
+		   		$created_time= $item['created_time'];
+		   		$images_thumbnail_url = $item['images']['thumbnail']['url'];
+		   		$link = $item['link'];
+			?>
+		  	<li>
+		  		<a href="<?= $link;?>" target="_blank" style="opacity: 1;">
+		  			<img src="<?=$images_thumbnail_url; ?>" alt="" width="100" height="60">
+		  		</a>	
+		  	</li>
+			<?php endforeach; ?>    
+		</ul>
+		<?php if($block->getshowMore()): ?>
+			<div class="more">Show more</div>
+			<div class="less">Show less</div>
+		<?php endif; ?>
+	</div>
+	<script type="text/javascript">
+	require(['jquery'],function($){
+		// var $ = jQuery.noConflict();
+		$(document).ready(function () {
+		    $('.gallery li:lt(6)').show();
+		    $('.less').hide();
+		   	var items ="<?=count($obj['items']); ?>";
+		    var show= "<?=$block->getShowPost(); ?>";
+		    $('.more').click(function () {
+		        jQuery('.less').show();
+		        shown = $('.gallery li:visible').size()+3;
+		        if(shown< items) {
+		        	$('.gallery li:lt('+shown+')').show(300);
+		        }else{
+		        	$('.gallery li:lt('+items+')').show(300);
+		            $('.more').hide();
+		        }
+		    });
+		    $('.less').click(function () {
+		        $('.gallery li').not(':lt(6)').hide(300);
+		        $('.more').show();
+		        $('.less').hide();
+		    });
+		});
+	});
+	</script>
+<?php endif; ?>

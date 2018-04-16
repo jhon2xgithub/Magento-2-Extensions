@@ -1,0 +1,60 @@
+// css is missing although i used php bin/magento setup:static-content:feploy
+https://magento.stackexchange.com/questions/97209/magento-2-css-and-javascript-not-loading-from-correct-folder
+
+//show popup when links clicked
+https://magento.stackexchange.com/questions/128199/how-to-open-popup-when-a-tag-onclick
+
+//modal with ajax post
+https://stackoverflow.com/questions/42073097/how-to-get-data-from-ajax-post-in-magento-2
+
+//webservices videos
+https://www.youtube.com/watch?v=oTzNRv6X51o
+
+// get products sku by id
+http://blog.chapagain.com.np/magento-2-load-product-by-id-and-sku/
+
+
+
+//create magento 2 webservices
+https://www.youtube.com/watch?v=hMN-ZoeODlQ
+
+//user roles
+user: Web Service Role
+pass: Internal123
+
+//Users
+username: Test
+pass: Internal123
+
+reports > products > bestsellers > statistics >  then checked bestsellers checkbox then refresh Statistics for the lastday > submit
+23
+30,31,32
+
+jQuery('.swatch-option').click(function(){ 
+	alert(jQuery(this).attr('option-id'));
+	
+});
+
+console.log(jQuery('[data-role=swatch-options]').data('mageSwatchRenderer').options.jsonConfig.index);
+
+jQuery('.swatch-attribute').each(function(k,v){   
+	//console.log(k,v);
+	
+       // var attribute_id    = jQuery(v).attr('attribute-id'); 
+	//alert(attribute_id);
+
+   	var swatch_attribute_options = jQuery(v).attr('swatch-attribute-options'); 
+	//jQuery(swatch_attribute_options).each(function(x, y){
+	//	console.log(x, y);
+	//});
+
+	jQuery('.swatch-option').click(function(){ 
+		alert(jQuery(this).attr('option-id').parent('attribute-id'));
+	
+	});
+});
+
+https://github.com/magento/magento2/issues/8184
+
+//Magento 2 can't get the selected color swatch value in options.phtml file
+https://magento.stackexchange.com/questions/181255/magento-2-cant-get-the-selected-color-swatch-value-in-options-phtml-file

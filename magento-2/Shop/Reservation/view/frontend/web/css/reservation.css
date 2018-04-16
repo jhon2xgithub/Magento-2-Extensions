@@ -1,0 +1,13 @@
+.modal-inner-wrap{
+	width: 75% !important;
+}
+#reservation-popup-mpdal{
+	border-bottom: 1px solid #c1c1c1;
+}
+.modal-popup .modal-title{
+
+}
+
+input[type="number"] {
+        width: 14% !important;
+}

@@ -1,0 +1,185 @@
+<?php 
+  
+   $helper = $this->helper('\Shop\Lookbook\Helper\Data');
+   $objectManager =   \Magento\Framework\App\ObjectManager::getInstance();
+   $connection = $objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection('\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION'); 
+   $data = $connection->fetchAll("SELECT * FROM `lookbook` WHERE status = 1");
+   $http_referrer = [];
+   $validProductName = [];
+   
+   for($x = 0; $x < count($data); $x++) {
+   	if($data[$x] != '') {
+   		$imgNew = $data[$x];
+   		$sku = $imgNew['sku'];
+   		$_product = $helper->getProductBySku($sku);
+
+         $validProductName[] = $imgNew['name'];
+   		
+   		$http_referrer[] = $_product->getProductUrl();
+
+   		$url = $_product->getProductUrl();
+		
+		   $parts = explode('/', $url);
+		
+   		// $http_referrer[] = "http:/".$parts[1]."/".$parts[2]."/".$parts[3]."/".$parts[6];
+   		
+   	}	
+   
+   }
+
+
+   // echo '<pre>';
+   $currentProducts = $block->getProduct()->getName();
+
+   //   echo '<br/>';
+   //  print_r($validProductName);
+   //  echo '<br/>';
+   // var_dump(in_array($currentProducts, $validProductName))
+
+   
+   // echo '<pre>';
+   // print_r($http_referrer);
+   // $currurl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+
+   // echo  $currurl;
+   						//http://127.0.0.1/shop_2.0.2/group-1.html
+   // var_dump(in_array($currurl, $http_referrer));
+
+// if(in_array($currurl, $http_referrer)):   
+   
+   ?>
+<style type="text/css">
+   #wrapp_slider{
+   width: 1240px;
+   }
+   .bx-controls-direction{
+   width: 1240px;
+   top: 27%;
+   position: absolute;	
+   }
+   .arrow_prev > .bx-wrapper,
+   .arrow_next > .bx-wrapper {
+   display: none;
+   }
+   .arrow_prev > .bx-wrapper,
+   .arrow_next > .bx-wrapper {
+   box-shadow: none;
+   border: none;
+   }
+</style>
+<!-- test -->
+<?php $purl = array(); ?>
+<?php if(in_array($currentProducts, $validProductName)): ?>
+
+<div id="wrapp_slider">
+   <!-- set pager -->
+   <ul class="bxslider" id="bxslider">
+      <?php for($x = 0; $x < count($data); $x++) { ?>	
+      <li>
+         <a href="">
+         <?php
+            if($data[$x] != '' && $data[$x]['status'] == 1) {
+            	$imgNew = $data[$x];
+            	$sku = $imgNew['sku'];
+            	$_product = $helper->getProductBySku($sku);
+            	
+            	$purl[] = $_product->getProductUrl();
+            
+            ?>	
+         <a href="<?php echo $_product->getProductUrl(); ?>">						
+         <img src="<?php echo $helper->getResizedUrl($imgNew['image']); ?>"/>  
+         </a>
+         <?php
+            }
+            ?>
+         </a>
+      </li>
+      <?php } ?>
+   </ul>
+   <!-- end pager -->
+   <div class="bx-controls-direction arrow_prev arrow_next">
+      <div class="bx-wrapper" style="max-width: 156px;">
+         <div class="bx-controls bx-has-controls-direction bx-has-pager">
+            <div class="bx-controls-direction">
+               <a class="bx-prev" href="">Prev</a>
+               <a class="bx-next" href="">Next</a>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- end test -->	
+</div>
+
+<?php endif;?>
+
+<script>
+   // <![CDATA[
+ require([
+    'jquery',
+    'jqueryNoConflict',
+    'jquerybxslider',
+    'jquerybxslidermin'
+
+ ], function($) {
+
+     $('.bxslider').bxSlider({
+
+         minSlides: 1,
+         maxSlides: 14,
+         slideWidth: 150,
+         slideMargin: 0,
+         // moveSlides: 1,
+         pager: false,
+         speed: 1000,
+         //    auto: false,
+         infiniteLoop: false, // set to false to avoid duplicate image
+         hideControlOnEnd: false,
+         nextText: '<span></span>',
+         prevText: '<span></span>',
+         useCSS: false,
+
+     });
+
+
+     if (jQuery('.bx-controls-direction a.bx-prev, .bx-controls-direction a.bx-next').hasClass('disabled')) {
+         $('.arrow_prev > .bx-wrapper, .arrow_next > .bx-wrapper').css({
+             'display': 'none'
+         });
+     } else {
+         $('.arrow_prev > .bx-wrapper, .arrow_next > .bx-wrapper').css({
+             'display': 'block'
+         });
+
+     }
+
+     var currentUrl = window.location.href;
+
+     var p = <?php echo json_encode($purl) ?>;
+
+     var start = currentUrl;
+     var next = p[($.inArray(start, p) + 1) % p.length];
+     var prev = p[($.inArray(start, p) - 1 + p.length) % p.length];
+
+     // console.log('next: '+ next);
+     // console.log('prev: '+ prev);      
+
+     // click next
+     $(".bx-next").attr('url', next);
+     $('.bx-next').click(function(e) {
+         // alert($(".bx-next").attr('url'));
+         window.location.href = $(".bx-next").attr('url');
+         return false;
+     });
+
+     // click prev
+     $(".bx-prev").attr('url', prev);
+     $('.bx-prev').click(function(e) {
+         // alert($(".bx-prev").attr('url'));
+         window.location.href = $(".bx-prev").attr('url');
+         return false;
+     });
+
+ });
+// ]]>
+</script>
+

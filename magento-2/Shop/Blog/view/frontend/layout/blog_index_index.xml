@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Shop_Blog::css/blog.css" />        
+    </head>    
+	<body>
+		<referenceBlock name="breadcrumbs">
+            <action method="addCrumb">
+                <argument name="crumbName" xsi:type="string">Home</argument>
+                <argument name="crumbInfo" xsi:type="array">
+                    <item name="title" xsi:type="string">Home</item>
+                    <item name="label" xsi:type="string">Home</item>
+                    <item name="link" xsi:type="string">/</item>
+                </argument>
+            </action>
+            <action method="addCrumb">
+                <argument name="crumbName" xsi:type="string">Blog</argument>
+                <argument name="crumbInfo" xsi:type="array">
+                    <item name="title" xsi:type="string">Blog</item>
+                    <item name="label" xsi:type="string">Blog</item>
+                </argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+        	<block class="Shop\Blog\Block\Bloglist" template="Shop_Blog::bloglist.phtml" cacheable="false" />        	  
+        </referenceContainer>
+    </body>
+</page>
+

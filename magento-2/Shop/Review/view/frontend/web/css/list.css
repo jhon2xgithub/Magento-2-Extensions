@@ -1,0 +1,116 @@
+.top-reviews{
+    display: flow-root;
+}    
+.top-reviews-left{
+    float: left;
+    margin-right: 10px;
+    width: 37%;
+}
+.top-reviews-center{
+    float: left;
+    width: 30%;    
+    /*margin: 0 0 0 30px;*/
+}
+
+.top-reviews-right{
+    text-align: center;
+}
+
+.donner-votre-avis{
+    background: rgba(51, 51, 51, 0.78);
+    color: #fff;
+    width: 230px;
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+}
+
+#progressbar-fifth,
+#progressbar-fourth,
+#progressbar-third,
+#progressbar-second,
+#progressbar-first {
+    float: left;
+    width: 74%;
+    border: 2px solid #ccc;
+}
+
+#progressbar-fifth > div {
+    background-color: orange;
+    width: 80%;
+    height: 35px;
+}
+#progressbar-fourth> div {
+    background-color: orange;
+    width: 30%;
+    height: 35px;
+}
+
+#progressbar-third> div {
+    background-color: orange;
+    width: 0%;
+    height: 35px;
+}
+
+#progressbar-second> div {
+    background-color: orange;
+    width: 0%;
+    height: 35px;
+}
+
+#progressbar-first> div {
+    background-color: orange;
+    width: 0%;
+    height: 35px;
+}
+.top-reviews-center ol li {
+    list-style: none;
+}
+
+.super {
+    margin: -17px 0 0 95px;
+    position: absolute;
+}
+
+p.title {
+    font-size: 24px;font-weight: bold;
+}
+p.one {
+    font-weight: bold;font-size: 20px;
+    color: rgba(51, 51, 51, 0.78);
+}
+p.three {
+    font-size: 16px;
+}
+
+.top-reviews-center div .left{
+    float: left;
+    margin-right: 1px;
+}
+.top-reviews-center div .right {
+    float: left;
+    margin-left: 1px;
+}
+
+.clear {
+    clear: both;
+}
+
+.ratings {
+    margin-bottom: 5px;
+}
+
+.title {
+    color: rgba(51, 51, 51, 0.78);
+}
+
+.rating-result{
+    float: left;
+}
+.rating-result-text {
+    float: left;
+    padding-left: 5px;
+}
+.rating-summary.item {
+    margin-bottom: 10px;
+}

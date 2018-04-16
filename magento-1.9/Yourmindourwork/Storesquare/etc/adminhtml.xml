@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <storesquare module="yourmindourwork_storesquare">
+            <title>Storesquare</title>
+            <sort_order>100</sort_order>               
+            <children>
+                <items module="yourmindourwork_storesquare">
+                    <title>Check Cronjob Status</title>
+                    <sort_order>0</sort_order>
+                    <action>admin_storesquare/adminhtml_index</action>                  
+                </items>
+                <items_matchcategories module="yourmindourwork_storesquare">
+                    <title>Match Categories</title>
+                    <sort_order>0</sort_order>
+                    <action>admin_storesquare/adminhtml_matchcategories</action>                  
+                </items_matchcategories>
+            </children>
+        </storesquare>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <storesquare>
+                        <title>Shop Api Products</title>
+                        <sort_order>200</sort_order>
+                    </storesquare>
+                </children>
+            </admin>
+        </resources>   
+    </acl>
+</config>    

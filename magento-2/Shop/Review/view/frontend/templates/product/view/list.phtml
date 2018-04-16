@@ -1,0 +1,121 @@
+<?php
+    $_items = $block->getReviewsCollection()->getItems();
+    $format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+
+    $productId = $block->getProduct()->getId();
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $loader = $objectManager->get('Magento\Catalog\Model\ProductFactory');
+    $product =$loader->create()->load($productId);
+    $imgUrl = $this->getUrl().'pub/media/catalog/product'.$product->getData('thumbnail');   
+
+?>
+<?php if (count($_items)):?>
+<div class="block review-list" id="customer-reviews">
+    <div class="top-reviews">
+        <p class="title"><?php /* @escapeNotVerified */ echo __('AVIS : SANDALES COMPENSÉES RALIA 1 OR'); ?></p>
+        <div class="top-reviews-left">        
+            <p class="one"><?php /* @escapeNotVerified */ echo __('EVALUATION GLOBALE');?></p>
+     
+            <div class="rating-summary item" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                <div class="rating-result" title="80%">
+                    <meta itemprop="worstRating" content = "1"/>
+                    <meta itemprop="bestRating" content = "100"/>
+                    <span style="width:80%">
+                        <span itemprop="ratingValue">80%</span>
+                    </span> 
+
+                </div>
+                <div class="rating-result-text"> <?php /* @escapeNotVerified */ echo __('4 sur 5 étoiles');?></div>
+            </div>
+
+            <p class="three"><?php /* @escapeNotVerified */ echo __('20 clients ont examiné RALIA 1 OR');?></p>
+            <p class="donner-votre-avis"><?php /* @escapeNotVerified */ echo __('DONNER VOTRE AVIS');?></p>
+        </div>
+        <div class="top-reviews-center">   
+
+        	<div class="ratings">
+        		<div class="left"><?php /* @escapeNotVerified */ echo __('5 étoiles');?></div>
+        		<div id="progressbar-fifth">
+        			<div></div>
+        		</div>
+        		<div class="right"><?php /* @escapeNotVerified */ echo __('(16)');?></div>
+        		<div class="clear"></div>        		
+        	</div> 
+
+        	<div class="ratings">
+        		<div class="left"><?php /* @escapeNotVerified */ echo __('4 étoiles');?></div>
+        		<div id="progressbar-fourth">
+        			<div></div>
+        		</div>
+        		<div class="right"><?php /* @escapeNotVerified */ echo __('(4)');?></div>
+        		<div class="clear"></div>   
+        	</div> 
+
+        	<div class="ratings">
+        		<div class="left"><?php /* @escapeNotVerified */ echo __('3 étoiles');?></div>
+        		<div id="progressbar-third">
+        			<div></div>
+        		</div>
+        		<div class="right"><?php /* @escapeNotVerified */ echo __('(0)');?></div>
+        		<div class="clear"></div>   
+        	</div> 
+
+        	<div class="ratings">
+        		<div class="left"><?php /* @escapeNotVerified */ echo __('2 étoiles');?></div>
+        		<div id="progressbar-second">
+        			<div></div>
+        		</div>
+        		<div class="right"><?php /* @escapeNotVerified */ echo __('(0)');?></div>
+        		<div class="clear"></div>   
+        	</div> 
+
+        	<div class="ratings">
+        		<div class="left"><?php /* @escapeNotVerified */ echo __('1 étoiles');?></div>
+        		<div id="progressbar-first">
+        			<div></div>
+        		</div>
+        		<div class="right"><?php /* @escapeNotVerified */ echo __('(0');?></div>
+        		<div class="clear"></div>   
+        	</div>                          
+        </div>  
+        <div class="top-reviews-right">
+            <img src="<?php echo $imgUrl;?>" width="180" alt="">
+        </div>  
+    </div>  
+    <div class="block-content">
+        <ol class="items review-items">
+        <?php foreach ($_items as $_review):?>
+            <li class="item review-item" itemscope itemprop="review" itemtype="http://schema.org/Review">
+                <div class="review-title" itemprop="name"><?php echo $block->escapeHtml($_review->getTitle()) ?></div>
+                <div class="review-ratings">
+                    <p class="review-author">
+                        <span class="review-details-label"><?php /* @escapeNotVerified */ echo __('de')?></span>
+                        <strong class="review-details-value" itemprop="author"><?php echo $block->escapeHtml($_review->getNickname()) ?></strong>
+                    </p>
+                </div>
+                <div class="review-content" itemprop="description">
+                    <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                    <div class="rating-summary item" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                        <span class="label rating-label"><span><?php //echo $block->escapeHtml($_vote->getRatingCode()) ?></span></span>
+                        <div class="rating-result" title="<?php /* @escapeNotVerified */ echo $_vote->getPercent() ?>%">
+                            <meta itemprop="worstRating" content = "1"/>
+                            <meta itemprop="bestRating" content = "100"/>
+                            <span style="width:<?php /* @escapeNotVerified */ echo $_vote->getPercent() ?>%">
+                                <span itemprop="ratingValue"><?php /* @escapeNotVerified */ echo $_vote->getPercent() ?>%</span> <?php echo ($_vote->getPercent() == 100)? "<b class='super'>Super!</b>": "";?>
+                            </span> 
+
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="review-details">
+                    <?php echo nl2br($block->escapeHtml($_review->getDetail())) ?>
+                </div>
+            </li>
+        <?php endforeach; ?>
+        </ol>   
+    </div>
+
+</div>
+<?php endif;?>

@@ -1,0 +1,726 @@
+<style type="text/css">
+/**
+ * RESET
+ * Reference: http://meyerweb.com/eric/tools/css/reset/
+ */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1.618;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/**
+ * BASIC TYPE
+ */
+
+p {
+    margin: 0 0 1em;
+}
+
+h1, h2, h3, h4 {
+    margin: .5em 0 .75em;
+    line-height: 1.3;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.25em;
+}
+
+h3 {
+    font-size: 1.125em;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+/**
+ * BOX HACKING
+ */
+
+html {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    -webkit-box-sizing: inherit;
+}
+
+/**
+ * CLEAR FLOATS
+ * Reference: http://w3bits.com/clearfix
+ */
+
+.cf:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/**
+ * CONTENT WRAPPER
+ */
+
+.wrapper {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media only screen and (min-width: 1366px) {
+    .wrapper {
+        width: 1080px;
+    }
+}
+
+/**
+ * ICON SYSTEM
+ */
+
+.icon {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    fill: currentColor;
+}
+
+.icon-reverse {
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+/**
+ * BUTTONS
+ */
+
+.buttons {
+    margin: 1.5em 0;
+}
+
+.button {
+    padding: 1em 1.5em;
+    color: rgba(255, 255, 255, 0.75);
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.button:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.green-sea {
+    background: #16a085;
+}
+
+.button.green-sea:hover {
+    background: #1abc9c;
+}
+
+.belize-hole {
+    background: #2980b9;
+}
+
+.button.belize-hole:hover {
+    background: #3498db;
+}
+
+.pomegranate {
+    background: #c0392b;
+}
+
+.button.pomegranate:hover {
+    background: #e74c3c;
+}
+
+/**
+ * HYPERLINKS & NAVIGATION
+ */
+
+a {
+    color: #555;
+}
+
+.lab-nav {
+    width: 100%;
+}
+
+.lab-nav--fixed {
+    position: fixed;
+}
+
+.lab-nav--top {
+    top: 0;
+}
+
+.lab-nav--bottom {
+    bottom: 0;
+}
+
+.lab-nav,
+.lab-follow {
+    font-size: 13px;
+    line-height: 1;
+}
+
+.lab-nav--light,
+.lab-follow--light {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.lab-nav--light,
+.lab-follow--light,
+.lab-nav--light a,
+.lab-follow--light {
+    color: rgba(0, 0, 0, 0.35);
+}
+
+.lab-nav--light a:hover,
+.lab-nav--light a:active,
+.lab-nav--light a:focus,
+.lab-follow--light:hover,
+.lab-follow--light:active,
+.lab-follow--light:focus {
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.lab-nav--dark,
+.lab-follow--dark {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.lab-nav--dark,
+.lab-follow--dark,
+.lab-nav--dark a {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.lab-nav--dark a:hover,
+.lab-nav--dark a:active,
+.lab-nav--dark a:focus,
+.lab-follow--dark:hover,
+.lab-follow--dark:active,
+.lab-follow--dark:focus {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.lab-follow,
+.lab-article-link,
+.lab-share a {
+    padding: .75em;
+    display: inline-block;
+    vertical-align: bottom;
+    text-decoration: none;
+}
+
+.lab-follow,
+.lab-article-link span,
+.lab-share-link span {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.lab-follow {
+    display: none;
+}
+
+.lab-follow .icon {
+    vertical-align: top;
+}
+
+.lab-article-link {
+    float: left;
+}
+
+.lab-share {
+    float: right;
+    text-align: right;
+}
+
+.lab-share ul {
+    margin: 0;
+}
+
+.lab-share li {
+    display: inline;
+    margin: 0;
+}
+
+.lab-article-button {
+    font-weight: 700;
+    display: block;
+    margin: 2em 0 0;
+    padding: 1.25em;
+    text-align: center;
+    color: #CAD0DC;
+    border: 3px solid #D1D8DE;
+}
+
+/**
+ * BUP
+ */
+
+.bup {
+    margin: 0 auto 2.5em;
+}
+
+.bup-cb {
+    display: none;
+}
+
+/**
+ * MEDIA SETTINGS
+ */
+
+@media only screen and (min-width: 1024px) {
+    h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.65em;
+    }
+    h3 {
+        font-size: 1.25em;
+    }
+    h4 {
+        font-size: 1em;
+    }
+
+    .bup {
+        _display: inline-block;
+        _position: fixed;
+        _right: 0;
+        _top: 5.5em;
+    _padding: 7px;
+    _z-index: 7000;
+    _background: white;
+    }
+
+    .bup-cb {
+        display: inline-block;
+    cursor: pointer;
+        line-height: 1;
+        padding: 7px 0;
+    font-size: 12px;
+    width: 28px;
+    text-align: center;
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    background: white;
+    z-index: 5000;
+    border-radius: 50%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .lab-article-link span,
+    .lab-share span {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .lab-follow {
+        display: inline-block;
+        position: fixed;
+        right: -34px;
+        bottom: 20%;
+        transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+    }
+}
+
+@media only screen and (max-width: 1023px) and (min-width: 768px) {
+    h1 {
+        font-size: 1.75em;
+    }
+    h2 {
+        font-size: 1.45em;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .lab-share {
+        text-align: right;
+    }
+}    
+    
+</style>
+<script>var script = function(src) {
+    var e = document.createElement('script');
+    e.async = true;
+    e.src = src;
+    document.getElementsByTagName('head')[0].appendChild(e);
+};
+
+var style = function(css) {
+    var e = document.createElement('style');
+    if(e.styleSheet){
+        e.styleSheet.cssText = css;
+    } else {
+        e.appendChild(document.createTextNode(css));
+    }
+    document.getElementsByTagName('head')[0].appendChild(e);
+}
+
+var toggleDisplay=function(el,display,class_el){
+    var EL=document.querySelector(el);
+    if(EL.style.display==display){
+        EL.style.display="none";
+        if(class_el)EL.classList.add(class_el);
+    }else{
+        EL.style.display=display;
+        if(class_el)EL.classList.add(class_el);
+    }
+};
+
+var font_body = 'PT Sans',
+    font_code = 'Roboto Mono';
+
+// if(window.showAds === undefined) {
+//   setTimeout(function() {
+//     var w = document.querySelector('.wrapper');
+//     if (typeof ga !== 'undefined') {
+//         ga('send', 'event', 'Adblock', 'Yes', {'nonInteraction': 1}); 
+//     } else if (typeof _gaq !== 'undefined') {
+//         _gaq.push(['_trackEvent', 'Adblock', 'Yes', undefined, undefined, true]);
+//     }
+
+//     var ab_a = document.createElement("div"),
+//         w_p = w.parentNode;
+//         w_p.classList.add("ab-active");
+//     ab_a.setAttribute("class", "ab-alert");
+//     w_p.parentNode.insertBefore(ab_a, w_p);
+//     ab_a.innerHTML = '<p>I never intend to spoil your experience here, but this is important. I want to share with you that this website exists totally because of adverts money.</p><p>If you whitelist my website in your adblocker software, I won\'t show you more than two Google ads per page, and no popups. It\'s a promise.</p><p>Thanks for your patience :-)</p><p class="small" style="opacity: .75">This message disappears by itself in 15 seconds.</p>';
+
+//     var ab = document.querySelector(".ab-alert");
+
+//     document.documentElement.setAttribute("oncontextmenu", "return false");
+
+//     style('.ab-alert{box-sizing:border-box;font-family:'+font_body+';line-height:1.75}.site-wrapper{transition: opacity .5s ease-in-out;}.ab-active{ opacity: .0125; pointer-events: none;position:fixed;width:100%;}.ab-alert,.ab-active{user-select:none;}.ab-alert{opacity: 1;transition: opacity .5s ease-in-out;font-size: 15px;position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100%;max-width: 450px; background-color: white; padding: 2.5em}');
+
+//     setInterval( function() {
+//         ab.style.opacity = "0";
+//         ab.remove();
+//         w_p.classList.remove("ab-active");
+//         document.documentElement.removeAttribute("oncontextmenu");
+//     }, 15000);
+//   }, 1000);
+// }
+
+var WebFontConfig = {
+    google: {
+        families: [font_body, font_code]
+    },
+    active: function() {
+        style('.wf-active body{ font-family: "' + font_body + '"; } pre,code { font-family: "' + font_code + '"; }');
+        console.log("Style added");
+    },
+    timeout: 10
+};
+
+window.onload = function() {
+  script("https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js");
+}</script><style>
+body {
+    font: 1em/1.67 Arial, Sans-serif;
+    margin: 0;
+    background: #e9e9e9;
+}
+
+img, iframe {
+max-width: 100%;
+height: auto;
+display: block;
+}
+
+.wrapper {
+    width: 95%;
+    margin: 1.5em auto;
+}
+
+.masonry {
+    margin: 1.5em 0;
+    padding: 0;
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
+    column-gap: 1.5em;
+    font-size: .85em;
+}
+
+.item {
+    display: inline-block;
+    background: #fff;
+    padding: 1.5em;
+    margin: 0 0 1.5em;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.title, .footer {
+text-align: center;
+}
+
+.title {
+font-size: 1.75em;
+margin: .25em 0;
+}
+
+.title a {
+display: inline-block;
+padding: .75em 1.25em;
+color: #888;
+border: 2px solid #aaa;
+margin: .25em 1em 1em;
+text-decoration: none;
+border-radius: 3px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+-ms-border-radius: 3px;
+-o-border-radius: 3px;
+}
+
+.title {
+color: #666;
+}
+
+.title a:hover {
+color: #666;
+border-color: #888;
+}
+
+
+.share-link,
+.article-link {
+color: #888;
+}
+
+@media only screen and (min-width: 700px) {
+    .masonry {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .masonry {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .masonry {
+        -moz-column-count: 4;
+        -webkit-column-count: 4;
+        column-count: 4;
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+    .wrapper {
+        width: 1260px;
+    }
+}</style></head>
+<body>
+<nav class="cf lab-nav  lab-nav--fixed lab-nav--dark">
+    <a href="http://w3bits.com/css-masonry/" title="Back to the article" class="article-link">
+        <svg class="icon icon-right-open icon-reverse">
+            <use xlink:href="http://w3bits.com/wp-content/themes/bits-v2/img/icons.svg#icon-right-open"></use>
+        </svg><span> Article</span></a>
+    <ul class="lab-share">
+        <li>
+            <a href="http://www.facebook.com/sharer/sharer.php?u=http://w3bits.com/css-masonry/" title="Share on Facebook">
+                <svg class="icon icon-facebook">
+                    <use xlink:href="http://w3bits.com/wp-content/themes/bits-v2/img/icons.svg#icon-facebook"></use>
+                </svg>
+            </a>
+        </li><!--
+    --><li>
+            <a href="https://twitter.com/intent/tweet?original_referer=http://w3bits.com/css-masonry/&text=$article_title&url=http://w3bits.com/css-masonry/&via=w3bits_" title="Tweet">
+                <svg class="icon icon-twitter">
+                    <use xlink:href="http://w3bits.com/wp-content/themes/bits-v2/img/icons.svg#icon-twitter"></use>
+                </svg>
+            </a>
+        </li><!--
+    --><li>
+            <a href="https://plus.google.com/share?url=http://w3bits.com/css-masonry/" title="Share on Google+">
+                <svg class="icon icon-gplus">
+                    <use xlink:href="http://w3bits.com/wp-content/themes/bits-v2/img/icons.svg#icon-gplus"></use>
+                </svg>
+            </a>
+        </li><!--
+    --><li>
+            <a href="javascript:void((function(d){var%20e=d.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','//assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);d.body.appendChild(e)})(document));" title="Pin-it on Pinterest">
+                <svg class="icon icon-pinterest">
+                    <use xlink:href="http://w3bits.com/wp-content/themes/bits-v2/img/icons.svg#icon-pinterest"></use>
+                </svg>
+            </a>
+        </li><!--
+    --><li>
+            <a href="http://www.addthis.com/bookmark.php?url=http://w3bits.com/css-masonry/" class="share-link" rel="external nofollow" title="Share the love" target="_blank">
+                <svg class="icon icon-share">
+                    <use xlink:href="http://w3bits.com/wp-content/themes/bits-v2/img/icons.svg#icon-share"></use>
+                </svg><span></span></a>
+        </li>
+    </ul>
+</nav>
+    <div class="wrapper">
+    <div class="wrapper">
+    <!-- <div class="title"><h1>Responsive CSS Masonry</h1></div> -->
+    <div class="masonry">
+        <div class="item"><img src="http://w3bits.com/wp-content/uploads/masonry.jpg" /></div>
+        <div class="item">Text-only masonry block.</div>
+        <div class="item">
+            <img src="http://media-cache-ec0.pinimg.com/736x/c3/10/22/c3102281f88237e7a2515099d2e6651f.jpg" />
+        </div>
+        <div class="item">
+            <img src="http://media-cache-ec0.pinimg.com/736x/0f/d0/84/0fd0847f7b48e5f16d896f62baa31b97.jpg" />
+        </div>
+        <div class="item">
+            <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=+&amp;q=taj+mahal&amp;ie=UTF8&amp;hq=&amp;hnear=&amp;ll=27.175015,78.042155&amp;spn=0.006295,0.006295&amp;t=m&amp;output=embed"></iframe>
+        </div>
+        <div class="item">
+            <a href="https://twitter.com/w3bits_">I tweet sometimes.</a>
+        </div>
+        <div class="item">
+            <img src="http://media-cache-ak0.pinimg.com/736x/2e/7f/db/2e7fdb7ed765973407fed0b0141bb126.jpg" />
+            <h2>A block with a headline using &lt;h2&gt; tag.</h2>
+        </div>
+        <div class="item">
+            <img src="http://media-cache-ec0.pinimg.com/600x/0b/87/f4/0b87f4eb50b3d7a7c9d70d97234753ab.jpg" /><br />
+            Lorem ipsum dolor sit amet, dicta dolore adipisci hic ipsam velit deleniti possimus cumque accusantium rerum quibusdam.
+        </div>
+        <div class="item">
+            <img src="http://media-cache-ec0.pinimg.com/600x/95/11/02/951102f18d5a50c3ca483e93c6f92f5a.jpg" />
+        </div>
+        <div class="item">
+            <iframe width="640" height="390" src="http://www.youtube.com/embed/cwGq-uy0bhI" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="item">
+            <a href="https://plus.google.com/+w3Bits">Circle me on Google+</a>
+        </div>
+        <div class="item">
+            <iframe src="http://player.vimeo.com/video/91605331" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+        <div class="item">
+            <img src="http://media-cache-ec0.pinimg.com/600x/97/35/91/97359142dce582b4530cb0f23fbe2e43.jpg" />
+        </div>
+        <div class="item">
+            <iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/13403434&amp;auto_play=false&amp;hide_related=false&amp;visual=true"></iframe>
+        </div>
+        <div class="item">
+            <iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fw3bits&amp;width&amp;height=290&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=463074340468076" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:290px;" allowTransparency="true"></iframe>
+        </div>
+    </div>
+</div>  </div>
+<a href="http://w3bits.com/follow/" class="lab-follow lab-follow--dark"><svg class="icon icon-plus"><use xlink:href="http://w3bits.com/wp-content/themes/bits-v2/img/icons.svg#icon-plus"></use></svg> Follow</a>
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-10703354-8', 'w3bits.com');
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = '//s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-10703354-8', 'w3bits.com');ga('require', 'displayfeatures');ga('send', 'pageview');
+        var toggle_menu = document.querySelector("#toggle_menu"),
+            toggle_search = document.querySelector("#toggle_search");
+if(toggle_menu) {
+        toggle_menu.addEventListener("click", function(){
+            toggleDisplay("#main-nav", "block", false);
+            toggle_menu.classList.toggle("active");
+            toggle_menu.children[0].classList.toggle("icon-close");
+        }, false);
+}
+if(toggle_search) {
+        toggle_search.addEventListener("click", function(){
+            toggleDisplay("#search", "block", false);
+            toggle_search.classList.toggle("active");
+            toggle_search.children[0].classList.toggle("icon-close");
+        }, false);
+}</script><script type='text/javascript' src='http://w3bits.com/wp-content/themes/bits-v2/assets/js/prettify.js'></script>
+<script type='text/javascript'>
+prettyPrint()
+</script>

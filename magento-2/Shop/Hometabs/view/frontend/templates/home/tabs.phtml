@@ -1,0 +1,76 @@
+<?php 
+if($block->getEnabled()): ?>
+
+    <div id="tab-container" class='tab-container'>
+        <ul class='etabs'>
+            <?php if($block->getNewEnabled()): ?>
+            <li class='tab'><a href="#tabs1-new"><?php echo $block->getNewTitle(); ?></a></li>
+            <?php endif; ?>
+
+            <?php if($block->getBestEnabled()): ?>
+            <li class='tab'><a href="#tabs1-best_selled"><?php echo $block->getBestTitle(); ?></a></li>
+            <?php endif; ?>
+            
+            <?php if($block->getGiftIdeasEnabled()): ?>
+            <li class='tab'><a href="#tabs1-gift_ideas">Gift Ideas</a></li>
+            <?php endif; ?>
+
+        </ul>
+        <div class='panel-container'>
+
+            <?php if($block->getNewEnabled()): ?>
+            <div id="tabs1-new"> 
+                <?php 
+                $type   = $block->getNewDispalyType();
+                $catid  = $block->getCustomCategoryIdByName();
+                $count  = $block->getNewProductCount();
+                ?>
+                <?php echo $this->getLayout()->createBlock("Shop\Hometabs\Block\Widget\Newproductwidget")->setDisplayType($type)->setCatId($catid)->setProductsCount($count)->setTemplate("widget/newproduct.phtml")->toHtml(); ?>           
+            </div>
+            <?php endif; ?>
+
+            <?php if($block->getBestEnabled()): ?>
+            <div id="tabs1-best_selled">         
+                <?php echo $this->getLayout()->createBlock("Shop\Hometabs\Block\Widget\Bestsellerdproduct")->setTemplate("widget/bestsellerdproduct.phtml")->toHtml();?>           
+            </div>      
+            <?php endif; ?>  
+            
+            <?php if($block->getGiftIdeasEnabled()): ?>
+            <div id="tabs1-gift_ideas">   
+                <?php echo $this->getLayout()->createBlock("Shop\Hometabs\Block\Widget\Giftideasproduct")->setTemplate("widget/giftideasproduct.phtml")->toHtml(); ?>                
+            </div>
+            <?php endif; ?>       
+        
+        </div>
+        <div class="col-md-1">
+            <div class="owl-carousel-arrows push-top">
+                <a class="btn btn-primary next" href="#"><i class="icon icon-angle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    require([
+        "jquery",
+        "easytabs",
+        // "owlcarousel" 
+    ], function($) {
+        'use strict';
+        $(document).ready(function() {
+
+            // Custom Navigation Events
+            $(".owl-carousel-arrows .next").click(function() {
+                owl.trigger('owl.next');
+            });
+            
+            $(".owl-carousel-arrows .prev").click(function() {
+                owl.trigger('owl.prev');
+            });
+
+            $('#tab-container').easytabs();
+        });
+
+       
+    });
+    </script>
+
+<?php endif; ?>

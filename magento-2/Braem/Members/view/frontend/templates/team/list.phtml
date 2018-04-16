@@ -1,0 +1,14 @@
+<?php $teamCollection = $block->getTeams(); ?>
+
+<div class="block team-sidebar">
+    <div class="block-title abs-block-title">
+        <strong role="heading" aria-level="2"><?php echo __('Teams') ?></strong>
+    </div>
+    <?php if(count($teamCollection) > 0): ?>
+        <ul class="teams-list">
+            <?php foreach($teamCollection as $team): ?>
+                <li><a class="translate" href="<?php echo $team->getTeamUrl(); ?>"><?php echo __($team->getName()) ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</div>

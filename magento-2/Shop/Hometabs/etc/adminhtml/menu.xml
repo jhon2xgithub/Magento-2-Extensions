@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+
+       <add 
+            id="Shop_Hometabs::base" 
+            title="Home Tabs" 
+            module="Shop_Hometabs" 
+            sortOrder="10" 
+            resource="Shop_Hometabs::hometabs"/>  
+         
+        <add 
+            id="Shop_Hometabs::hometabs_configuration" 
+            title="Configuration" 
+            module="Shop_Hometabs" 
+            sortOrder="99" 
+            parent="Shop_Hometabs::base" 
+            action="adminhtml/system_config/edit/section/hometabs" 
+            resource="Shop_Blog::blog_configuration"/>
+    </menu>
+</config>

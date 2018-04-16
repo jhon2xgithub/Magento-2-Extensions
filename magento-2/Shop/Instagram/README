@@ -1,0 +1,4 @@
+
+
+{{block class="Shop\Instagram\Block\Instagram" template="Shop_Instagram::feed.phtml"}}
+

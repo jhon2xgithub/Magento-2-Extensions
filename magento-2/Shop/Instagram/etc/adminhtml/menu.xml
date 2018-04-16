@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+
+       <add 
+            id="Shop_Instagram::base" 
+            title="Instagram" 
+            module="Shop_Instagram" 
+            sortOrder="10" 
+            resource="Shop_Instagram::instagram"/>      
+   
+        <add 
+            id="Shop_Instagram::instagram_configuration" 
+            title="Instagram Configuration" 
+            module="Shop_Instagram" 
+            sortOrder="99" 
+            parent="Shop_Instagram::base" 
+            action="adminhtml/system_config/edit/section/instagram" 
+            resource="Shop_Instagram::instagram_configuration"/>
+    </menu>
+</config>

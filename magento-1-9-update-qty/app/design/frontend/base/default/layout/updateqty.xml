@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<layout>
+
+	<default>
+	    <reference name="head">
+	        <action method="addItem">
+	            <type>skin_css</type>
+	            <name>css/checkout/cart/updateqty.css</name>
+	        </action>
+	        <action method="addItem">
+	            <type>skin_js</type>
+	            <name>js/checkout/cart/updateqty.js</name>
+	        </action>
+	    </reference>
+	</default>
+
+    <checkout_cart_index translate="label">
+    	
+        <reference name="checkout.cart">
+        	<!-- <block type="core/template" name="updateqty_cart" template="app/design/frontend/base/default/template/updateqty/cart-js.phtml" /> -->
+        	<action method="setCartTemplate"><value>checkout/cart.phtml</value></action>
+            <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>updateqty/checkout/cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>updateqty/checkout/cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>updateqty/checkout/cart/item/default.phtml</template></action>
+        </reference>
+    </checkout_cart_index>
+</layout>
+

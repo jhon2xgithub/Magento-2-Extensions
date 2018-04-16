@@ -1,0 +1,50 @@
+<?php
+/** @var $block \Shop\Blog\Block\Bloglist */
+include("simple_html_dom.php");
+$block->rssfeed();
+
+if($block->getEnabled()): ?>
+
+<div class="container">
+	<?php
+	$data = $block->getCollection(); 
+	$counter = 0;
+	$i = 0;
+	foreach($data as $bloginfo): 
+		$j = $i++;
+	?>
+	<div id="count_<?=$counter++%3;?>">
+		<?php 
+		$html = str_get_html($data[$j]['description']);
+		$images = $html->find("img");
+
+		$links = array();
+		foreach($images as $image) {
+		  $links[] = $image->src;
+		}
+		?>
+
+		<img width="640" height="403" src="<?php echo $links[0]; ?>" />
+		<p class="title"><?=$data[$j]['title'];?></p>
+
+		<?php 
+		$desc = $data[$j]['description'];
+		$content = preg_replace("/<img[^>]+\>/i", "", $desc); 
+		echo $string = preg_replace("/<a(.*?)>/", "<a$1 target=\"_blank\">", $content);
+		?>
+
+
+	</div>
+	<?php endforeach;?>
+</div>
+
+<?php endif; ?>
+<script type="text/javascript">
+// <![CDATA[
+  require([
+    'jquery'
+  ], function ($) {
+
+  });
+// ]]>    
+</script>

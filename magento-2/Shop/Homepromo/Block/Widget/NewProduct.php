@@ -1,0 +1,255 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+namespace Shop\Homepromo\Block\Widget;
+
+use Magento\Customer\Model\Context as CustomerContext;
+
+/**
+ * New products block
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
+class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implements
+    \Magento\Framework\DataObject\IdentityInterface
+{
+    /**
+     * Default value for products count that will be shown
+     */
+    const DEFAULT_PRODUCTS_COUNT = 2;
+    const DEFAULT_IMAGE_WIDTH = 240;
+    const DEFAULT_IMAGE_HEIGHT = 300;
+
+    /**
+     * Image helper
+     *
+     * @var Magento\Catalog\Helper\Image
+     */
+    protected $_imageHelper;
+
+    /**
+     * Products count
+     *
+     * @var int
+     */
+    protected $_productsCount;
+
+
+    /**
+     * @var \Magento\Framework\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Product collection factory
+     *
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+
+
+
+    /**
+     * @param Context $context
+     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Framework\App\Http\Context $httpContext,
+
+        array $data = []
+    ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->httpContext = $httpContext;
+        $this->_imageHelper = $context->getImageHelper();
+
+        parent::__construct(
+            $context,
+            $data
+        );
+    }
+
+    /**
+     * Initialize block's cache
+     *
+     * @return void
+     */
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->addColumnCountLayoutDepend('empty', 6)
+            ->addColumnCountLayoutDepend('1column', 5)
+            ->addColumnCountLayoutDepend('2columns-left', 4)
+            ->addColumnCountLayoutDepend('2columns-right', 4)
+            ->addColumnCountLayoutDepend('3columns', 3);
+
+        $this->addData(
+            ['cache_lifetime' => 86400, 'cache_tags' => [\Magento\Catalog\Model\Product::CACHE_TAG]]
+        );
+    }
+
+    /**
+     * Image helper Object
+     */
+    public function imageHelperObj(){
+        return $this->_imageHelper;
+    }
+
+    /**
+     * Get the widht of product image
+     * @return int
+     */
+    public function getProductimagewidth() {
+        if($this->getData('imagewidth')==''){
+            return self::DEFAULT_IMAGE_WIDTH;
+        }
+        return $this->getData('imagewidth');
+    }
+    /**
+     * Get the height of product image
+     * @return int
+     */
+    public function getProductimageheight() {
+        if($this->getData('imageheight')==''){
+            return self::DEFAULT_IMAGE_HEIGHT;
+        }
+        return $this->getData('imageheight');
+    }
+
+    /**
+     * Get Key pieces for caching block content
+     *
+     * @return array
+     */
+    public function getCacheKeyInfo()
+    {
+        return [
+           'CATALOG_PRODUCT_NEW',
+           $this->_storeManager->getStore()->getId(),
+           $this->_design->getDesignTheme()->getId(),
+           $this->httpContext->getValue(CustomerContext::CONTEXT_GROUP),
+           'template' => $this->getTemplate(),
+           $this->getProductsCount()
+        ];
+    }
+
+    /**
+     * Prepare and return product collection
+     *
+     * @return \Magento\Catalog\Model\ResourceModel\Product\Collection|Object|\Magento\Framework\Data\Collection
+     */
+    protected function _getProductCollection()
+    {
+  
+        $todayStartOfDayDate = $this->_localeDate->date()->setTime(0, 0, 0)->format('Y-m-d H:i:s');        
+        $todayEndOfDayDate = $this->_localeDate->date()->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+
+        /** @var $collection \Magento\Catalog\Model\ResourceModel\Product\Collection */
+        $collection = $this->_productCollectionFactory->create();
+        $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
+
+        $collection = $this->_addProductAttributesAndPrices(
+            $collection
+        )->addStoreFilter()->addAttributeToFilter(
+            'news_from_date',
+            [
+                'or' => [
+                    0 => ['date' => true, 'to' => $todayEndOfDayDate],
+                    1 => ['is' => new \Zend_Db_Expr('null')],
+                ]
+            ],
+            'left'
+        )->addAttributeToFilter(
+            'news_to_date',
+            [
+                'or' => [
+                    0 => ['date' => true, 'from' => $todayStartOfDayDate],
+                    1 => ['is' => new \Zend_Db_Expr('null')],
+                ]
+            ],
+            'left'
+        )->addAttributeToFilter(
+            [
+                ['attribute' => 'news_from_date', 'is' => new \Zend_Db_Expr('not null')],
+                ['attribute' => 'news_to_date', 'is' => new \Zend_Db_Expr('not null')],
+            ]
+        )->addAttributeToSort(
+            'news_from_date',
+            'desc'
+        )->setPageSize(
+            $this->getProductsCount()
+        )->setCurPage(
+            1
+        );
+
+        // echo '<pre>';
+        // $collection->printLogQuery(true);
+
+        return $collection;
+    }
+
+    /**
+     * Prepare collection with new products
+     *
+     * @return \Magento\Framework\View\Element\AbstractBlock
+     */
+    protected function _beforeToHtml()
+    {
+        $this->setProductCollection($this->_getProductCollection());
+        return parent::_beforeToHtml();
+    }
+
+    /**
+     * Set how much product should be displayed at once.
+     *
+     * @param int $count
+     * @return $this
+     */
+    public function setProductsCount($count)
+    {
+        $this->_productsCount = $count;
+        return $this;
+    }
+
+    /**
+     * Get how much products should be displayed at once.
+     *
+     * @return int
+     */
+    public function getProductsCount()
+    {
+        if (null === $this->_productsCount) {
+            $this->_productsCount = self::DEFAULT_PRODUCTS_COUNT;
+        }
+        return $this->_productsCount;
+    }
+
+ 
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return [\Magento\Catalog\Model\Product::CACHE_TAG];
+    }
+
+
+}

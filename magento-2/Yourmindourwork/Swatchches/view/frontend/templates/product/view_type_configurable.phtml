@@ -1,0 +1,41 @@
+<script type="text/javascript">
+    require([
+            'jquery'         
+        ],
+        function($, modal) {
+
+            $(".product-options-wrapper select[id^='attribute']").last().on('change', function() {
+                setTimeout(function (){
+                    simpleId=jQuery("input[name=selected_configurable_option]").val();                   
+             
+                    $.ajax({
+                        url: "<?php echo $this->getUrl().'ymow_swatchches/index/ajax'?>",
+                        type: 'POST',               
+                        data: {
+                           associate_product: simpleId                              
+                        },
+                        success: function(response) {    
+                            console.log(response);
+                            var returnedData = JSON.parse(response); 
+                            var entity_id = returnedData.entity_id;
+                            var name = returnedData.name;
+                            var description = returnedData.description;
+                            var sku = returnedData.sku;
+
+                            $('.base').html(name);
+                            $('.product.data.items .value p:last-child').html(description+ ' - ' +entity_id);   
+                            $('.product-info-main .product.attribute.sku .value').html(sku);
+                      
+                        },
+                        error: function (xhr, status, errorThrown) {
+                           console.log('Error happens. Try again.');
+                        }
+                    });      
+                   
+
+                }, 1000); 
+            });
+        }
+    );
+
+</script>

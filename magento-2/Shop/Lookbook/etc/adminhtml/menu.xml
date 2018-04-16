@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Pagseguro. All rights reserved.
+ */
+-->
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+        <add 
+            id="shop::base" 
+        	title="Lookbooks" 
+        	module="Shop_Lookbook" 
+        	sortOrder="10" 
+        	resource="Shop_Lookbook::sample"/>
+
+        <add 
+            id="Shop_Lookbook::lookbook" 
+        	title="Lookbook" 
+        	module="Shop_Lookbook" 
+        	sortOrder="10" 
+        	parent="shop::base" 
+        	action="shop_lookbook/lookbook/" 
+        	resource="Shop_Lookbook::lookbook"/>
+
+        <add 
+            id="Shop_Lookbook::settings" 
+            title="Settings" 
+            module="Shop_Lookbook" 
+            sortOrder="20" 
+            parent="shop::base" 
+            action="adminhtml/system_config/edit/section/lookbook" 
+            resource="Shop_Lookbook::settings"/>
+    </menu>
+</config>

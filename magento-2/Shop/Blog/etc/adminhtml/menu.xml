@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+
+       <add 
+            id="Shop_Blog::base" 
+            title="Blog" 
+            module="Shop_Blog" 
+            sortOrder="10" 
+            resource="Shop_Blog::blog"/>      
+      
+        <add 
+            id="Shop_Blog::blog" 
+            title="Blog" 
+            module="Shop_Blog" 
+            sortOrder="10" 
+            action="shop_blog/blog" 
+            resource="Shop_Blog::blog" 
+            parent="Shop_Blog::base"/>
+      
+        <add 
+            id="Shop_Blog::blog_configuration" 
+            title="Configuration" 
+            module="Shop_Blog" 
+            sortOrder="99" 
+            parent="Shop_Blog::base" 
+            action="adminhtml/system_config/edit/section/blog" 
+            resource="Shop_Blog::blog_configuration"/>
+    </menu>
+</config>

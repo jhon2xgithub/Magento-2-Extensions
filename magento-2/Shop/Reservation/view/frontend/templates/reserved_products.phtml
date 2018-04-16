@@ -1,0 +1,90 @@
+
+<?php 
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $om->get('Magento\Customer\Model\Session');
+if($customerSession->isLoggedIn()) {
+
+	$logged_email =  $customerSession->getCustomer()->getEmail();
+	
+	$objectManager =   \Magento\Framework\App\ObjectManager::getInstance();
+	$connection = $objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection('\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION'); 
+	$data_collection = $connection->fetchAll("SELECT * FROM `shop_reservation_post` WHERE is_logged_in = 1 AND email = '{$logged_email}' ");
+	?>
+  	<table id="reservation-table" class="reservation items data table">
+        <thead>
+            <tr>
+                <th class="col article" scope="col"><span><?php /* @escapeNotVerified */ echo __('Article') ?></span></th>
+                <th class="col" scope="col"><span>&nbsp;</span></th>
+                <th class="col couleur" scope="col"><span><?php /* @escapeNotVerified */ echo __('Couleur') ?></span></th>
+                <th class="col taille" scope="col"><span><?php /* @escapeNotVerified */ echo __('Taille') ?></span></th>
+                <th class="col quantité" scope="col"><span><?php /* @escapeNotVerified */ echo __('Quantité') ?></span></th>
+                <th class="col prix" scope="col"><span><?php /* @escapeNotVerified */ echo __('Prix') ?></span></th>
+            </tr>
+        </thead>
+    	<tbody class="cart item">   
+    		<?php foreach($data_collection as $key=>$item): ?>   		
+    	
+            <tr class="item-info">
+                <td data-th="Item" class="col item">
+                    <a href="javarcript:void(0)" id="reservation-title" title="" tabindex="-1" class="product-item-photo">
+                        <span class="product-image-container" style="width:165px;">
+                            <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                            <img class="product-image-photo" id="reservation-image" src="<?=$item['product_image'] ?>" width="165" height="165" alt="Floral Lace Up Sneakers"></span>
+                        </span>
+                    </a>
+                </td>    
+                <td class="col price" data-th="Price">    
+                    <div class="product-item-name">
+                        <strong class="product-item-name">
+                            <a href="javarcript:void(0)" id="reservation-product-item-name"><?=$item['product_name'] ?></a>
+                        </strong>
+                        <dl class="item-options">
+                            <dt>Référence: </dt>                      
+                        </dl>   
+                    </div>
+                </td>
+                <td class="col colour" data-th="Colour">
+                    <span class="colour">
+                        <span class="colour">
+                            <span class="colour" id="reservation-colour"><?=$item['product_color']; ?></span> 
+                        </span>
+                    </span>
+                </td>
+                <td class="col size" data-th="Size">
+                    <span class="size">
+                        <span class="size">
+                            <span class="size" id="reservation-size"><?=$item['product_size']; ?></span> 
+                        </span>
+                    </span>
+                </td>
+                <td class="col qty" data-th="Qty">
+                    <div class="field qty">
+                        <div class="control qty">
+                           
+                            <input id="cart-20-qty" name="qty" data-cart-item-id="Floral Lace Up Sneakers-38" value="<?=$item['qty'];?>" type="number" size="4" title="Qty" class="input-text qty" maxlength="12" data-validate="{required:true,'validate-greater-than-zero':true}" data-role="cart-item-qty">
+                        
+                        </div>
+                    </div>
+                </td>
+                <td class="col subtotal" data-th="Subtotal">
+                    <span class="price-excluding-tax" data-label="Excl. Tax">
+                        <span class="cart-price">
+                        	<?php 
+                        		$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); // Instance of Pricing Helper
+       							$formattedPrice = $priceHelper->currency($item['product_price'], true, false);      
+
+                        	?>
+                            <span class="price" id="reservation-price"><?=$formattedPrice; ?></span> 
+                        </span>
+                    </span>
+                </td>
+            </tr>               
+           	<?php endforeach; ?>
+        </tbody>        
+    </table>     
+	<?php 
+
+}else{
+
+	echo 'Not Logged In';
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Braem\Members\Block\Adminhtml\Team\Edit" name="braem_members_team_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Braem\Members\Block\Adminhtml\Team\Edit\Tabs" name="braem_members_team_tabs">
+                <block class="Braem\Members\Block\Adminhtml\Team\Edit\Tab\Team" name="braem_members_team_edit_tab_team"/>
+                <block class="Braem\Members\Block\Adminhtml\Team\Edit\Tab\Member" name="braem_members_team_edit_tab_member"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">team</argument>
+                    <argument name="block" xsi:type="string">braem_members_team_edit_tab_team</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">member</argument>
+                    <argument name="block" xsi:type="string">braem_members_team_edit_tab_member</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="page.main.actions">
+            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher">
+                <action method="setUseConfirm">
+                    <argument name="params" xsi:type="string">1</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

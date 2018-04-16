@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Shop. All rights reserved.
+ */
+-->
+
+<page 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    layout="admin-2columns-left" 
+    xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Admin Edit Form</title>
+        <script 
+            src="Shop_Lookbook::js/fileuploader.js"/>
+        
+    </head>
+    <body>
+        <referenceContainer 
+            name="left">
+            <block 
+                class="Shop\Lookbook\Block\Adminhtml\Lookbook\Edit\Tabs" 
+                name="shop_lookbook_lookbook_edit_tabs">
+                <block 
+                    class="Shop\Lookbook\Block\Adminhtml\Lookbook\Edit\Tab\Main" 
+                    name="shop_lookbook_lookbook_edit_tab_main"/>
+                <action 
+                    method="addTab">
+                    <argument 
+                        name="name" 
+                        xsi:type="string">main_section</argument>
+                    <argument 
+                        name="block" 
+                        xsi:type="string">shop_lookbook_lookbook_edit_tab_main</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer 
+            name="content">
+            <block 
+                class="Shop\Lookbook\Block\Adminhtml\Lookbook\Edit" 
+                name="lookbook_lookbook_edit"/>
+        </referenceContainer>
+    </body>
+</page>

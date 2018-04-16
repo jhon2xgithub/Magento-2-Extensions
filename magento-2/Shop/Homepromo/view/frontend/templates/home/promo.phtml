@@ -1,0 +1,23 @@
+<div class="homepromo-wrapp">
+
+	<?php 
+	// $resultLayout = $this->_resultLayoutFactory->create();
+ //    // $collection= $resultLayout->getLayout()->createBlock('\Magento\Catalog\Block\Product\AbstractProduct')->_addProductAttributesAndPrices($collection)  
+    // $collection= $block->getLayout()->createBlock('\Shop\Homepromo\Block\Product\AbstractProd')->testing();  
+
+	?>
+	<div class="city">
+	   	<h2>TOP DES VENTES</h2>	
+	    <?php echo $this->getLayout()->createBlock("Shop\Homepromo\Block\Widget\Bestsellers")->setTemplate("promo/bestsellers.phtml")->toHtml(); ?>
+	</div>
+	<div class="city">
+	   	<h2>IDÉES CADEAUX</h2>	  
+	  	<?php echo $this->getLayout()->createBlock("Shop\Homepromo\Block\Widget\Ideescadeaux")->setTemplate("promo/idees_cadeau.phtml")->toHtml(); ?>
+	</div>
+	<div class="city">
+	   <h2>NOUVEAUTES</h2>	<!-- setProductsCount(2) -->
+	   <?php echo $this->getLayout()->createBlock("Shop\Homepromo\Block\Widget\Nouveautes")->setTemplate("promo/new_grid.phtml")->toHtml(); ?>
+	</div->
+	
+</div>	
+<div class="clear"></div>

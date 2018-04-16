@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <shop_instagram>
+            <general>
+                <enable>1</enable>
+                <access_token>5694684923.3a81a9f.717a3ffe425d4401a2f9e1a84aff7459</access_token>
+                <url>https://api.instagram.com/</url>   
+                <user_id>1649757134</user_id>     
+                <tag>maniet_luxus</tag>
+                <show_post>6</show_post>   
+                <show_more>1</show_more>      
+            </general>
+        </shop_instagram>
+    </default>
+</config>

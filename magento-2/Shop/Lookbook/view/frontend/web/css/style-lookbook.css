@@ -1,0 +1,75 @@
+.p-img, .p-configurable{
+  float: left;
+  /*background: #f0f0f0;*/
+  margin: auto;
+  width: 49%;
+}  
+
+.p-img{
+  /*border-right: 1px solid #dcdcdc;*/
+}
+
+.head-right{
+  /*background: red;*/
+  width: 100px;
+}
+
+.head-title-left{
+  /*background: green;*/
+  text-align: left;
+  margin: 0 0 10px 10px;
+  float: left;
+}
+
+.config-btn .add-to-cart{   
+  box-shadow: none;
+  background: orange;
+  border: 0;
+  color: #fff;
+}   
+
+.trans-bg{
+  background: transparent !important;
+}
+.config-title {
+  /*background: #dcdcdc;*/
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+}
+
+.config-container {
+  /*background: #dcdcdc;*/
+  margin: 10px 0 0 0;
+  width: 100%;
+  
+}
+
+.config-secondary-images{
+  width: 89%;
+}
+
+.config-secondary-images .secondary-images{
+  margin: 0px 10px 0 10px;
+}
+
+.config-head-img, .config-secondary-images, .config-price, .secondary-images {
+  float: left;
+}
+
+.config-btn{
+  /*clear: both;*/
+  background: orange;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  width: 230px;
+  padding: 5px;
+  /*margin-left: 230px;*/
+  margin-bottom: 2px;
+  float: left;
+}
+  
+.spacer{
+  clear:both;
+}  

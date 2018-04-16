@@ -1,0 +1,286 @@
+<style type="text/css">
+.modal-inner-wrap{
+    width: 75% !important;
+}
+</style>
+<?php 
+
+$blockObj= $block->getLayout()->createBlock('\Magento\Swatches\Block\Product\Renderer\Configurable');
+$getJsonConfig = $blockObj->getJsonConfig(); 
+$getJsonSwatchConfig = $blockObj->getJsonSwatchConfig(); 
+
+// call class block            
+$blockReservation= $block->getLayout()->createBlock('\Shop\Reservation\Block\Reservation');
+
+// check product types
+$product_id = $block->getProduct()->getId();
+// load current product from product pages
+$currentProduct = $this->getProduct();
+
+//call helper directly  
+$helper = $this->helper('\Shop\Storestock\Helper\Data');
+
+// loads its childs ids
+$childrenIds = $currentProduct->getTypeInstance()->getChildrenIds($product_id);
+$objArray = []; 
+$i = 0;
+$len = count($childrenIds[0]);
+foreach($childrenIds[0] as $productId){
+    if ($i == 0) {           
+        $objArray['id'] = $productId;     
+    }              
+    $i++;   
+}
+?>
+<div class="actions">
+    <div class="mage-error" id="reservation-mage-error" generated="true"></div>
+    <a title="Reservation" class="action primary reservation" id="product-reservation-button">  
+        <span>RÉSERVATION</span>
+    </a>
+</div>
+<div id="reservation-popup-mpdal" style="display:none;"> 
+
+    <div class="reservation-msg"></div>
+   
+    <table id="reservation-table" class="reservation items data table">
+        <thead>
+            <tr>
+                <th class="col article" scope="col"><span><?php /* @escapeNotVerified */ echo __('Article') ?></span></th>
+                <th class="col" scope="col"><span>&nbsp;</span></th>
+                <th class="col couleur" scope="col"><span><?php /* @escapeNotVerified */ echo __('Couleur') ?></span></th>
+                <th class="col taille" scope="col"><span><?php /* @escapeNotVerified */ echo __('Taille') ?></span></th>
+                <th class="col quantité" scope="col"><span><?php /* @escapeNotVerified */ echo __('Quantité') ?></span></th>
+                <th class="col prix" scope="col"><span><?php /* @escapeNotVerified */ echo __('Prix') ?></span></th>
+            </tr>
+        </thead>
+        <form data-mage-init='{"validation": {}}' action="<?php echo $this->getUrl().'reservation/item/save/'?>" method="post" class="form" id="reservation-form" autocomplete="off">
+            <div class="cart table-wrapper">    
+                <tbody class="cart item">   
+                    <tr class="item-info">
+                        <td data-th="Item" class="col item">
+                            <a href="javascrip:void(0)" id="reservation-title" title="" tabindex="-1" class="product-item-photo">
+                                <span class="product-image-container" style="width:165px;">
+                                    <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                                    <img class="product-image-photo" id="reservation-image" src="" width="165" height="165" alt="Floral Lace Up Sneakers"></span>
+                                </span>
+                            </a>
+                        </td>    
+                        <td class="col price" data-th="Price">    
+                            <div class="product-item-name">
+                                <strong class="product-item-name">
+                                    <a href="javascrip:void(0)" id="reservation-product-item-name"></a>
+                                </strong>
+                                <dl class="item-options">
+                                    <dt>Référence: </dt>                      
+                                </dl>   
+                            </div>
+                        </td>
+                        <td class="col colour" data-th="Colour">
+                            <span class="colour">
+                                <span class="colour">
+                                    <span class="colour" id="reservation-colour"></span> 
+                                </span>
+                            </span>
+                        </td>
+                        <td class="col size" data-th="Size">
+                            <span class="size">
+                                <span class="size">
+                                    <span class="size" id="reservation-size"></span> 
+                                </span>
+                            </span>
+                        </td>
+                        <td class="col qty" data-th="Qty">
+                            <div class="field qty">
+                                <div class="control qty">
+                                    <input type="hidden" name="product_id" id="product_id" value=""/>
+                                    <input type="hidden" name="product_image" id="product_image" value=""/>
+                                    <input type="hidden" name="product_name" id="product_name" value=""/>
+                                    <input type="hidden" name="product_size" id="product_size" value=""/>
+                                    <input type="hidden" name="product_color" id="product_color" value=""/>
+                                    <input id="cart-20-qty" name="qty" data-cart-item-id="Floral Lace Up Sneakers-38" value="1" type="number" size="4" title="Qty" class="input-text qty" maxlength="12" data-validate="{required:true,'validate-greater-than-zero':true}" data-role="cart-item-qty">
+                                    <input type="hidden" name="product_price" id="product_price" value=""/>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col subtotal" data-th="Subtotal">
+                            <span class="price-excluding-tax" data-label="Excl. Tax">
+                                <span class="cart-price">
+                                    <span class="price" id="reservation-price"></span> 
+                                </span>
+                            </span>
+                        </td>
+                    </tr>               
+                    <tr class="item-information">
+                        <td colspan="100">TON INFORMATION</td>
+                    </tr>
+                    <tr>
+                        <td>Aansperking</td>     
+                        <td>Voornaam</td>     
+                        <td>naam</td>     
+                        <td>E-mailadress</td>     
+                        <td>Numéro GSM</td>                   
+                    </tr>    
+                    <tr>
+                        <input type="hidden" name="is_logged_in" value="1">
+                        <td><input type="radio" name="appeal" value="dhr"/>Dhr.<input type="radio" name="appeal" value="merv"/>Merv</td>     
+                        <td><input type="text" name="firstname" value=""/></td>   
+                        <td><input type="text" name="name" value="" /></td>     
+                        <td><input type="email" name="email" id="email_address" value="" class="input-text" data-validate="{required:true, 'validate-email':true}"/></td>     
+                        <td><input type="text" name="phone" value="" /></td>                    
+                    </tr> 
+
+                </tbody>
+            </div>
+           
+        </form>       
+    </table>      
+</div>
+
+<script type="text/javascript">
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+ 
+   var dataForm = $('#reservation-form');
+   dataForm.mage('validation', {});
+ 
+});
+</script>
+<script>
+require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/modal',
+        'mage/mage'
+    ],
+    function($, modal) {
+    	'use strict';
+
+        var dataForm = $('#form-webservices');
+        dataForm.mage('validation', {});
+
+      	$(".reservation-msg").hide(); 		
+		var jsonConfig = <?=$getJsonConfig;?>;
+
+        $('body').on('click', '.swatch-option', function(e) {
+            var swatchid = $('.swatch-attribute').attr('option-selected');
+            var swatchattributeid = $('.swatch-attribute').attr('attribute-id');
+            if (swatchid) {
+               
+                var arr = [];
+                $(jsonConfig).each(function(i, a) {
+                    $.each(a.attributes, function(i, b) {                       
+                        $.each(b.options, function(j, x) {                 
+                            $.each(a.index, function(i, b) {
+                                $.each(b, function(j, c) {
+                                    if (swatchid == c && swatchid == x.id) {
+                                        var product_id = i;
+                                        var attribute_id = j;
+                                        var option_id = c;
+
+                                        $("#single_product_id").val(product_id);
+                                        arr.push(1);
+                                        arr.push({
+                                            product_id: i,
+                                            label: x.label
+                                        });                                       
+                                    }                                    
+                                });
+                            });
+                        });        
+                    });
+                });
+
+                $(".reservation-msg").hide();
+                $("#reservation-mage-error").hide();
+                var new_product_id = arr[1].product_id;
+                var size = arr[1].label;
+                $.ajax({
+                    // showLoader: true,
+                    url: "<?php echo $this->getUrl().'reservation/product/reserve/'?>",
+                    data: {'product_id': new_product_id},
+                    type: "post",
+                    dataType: 'json',
+                    success: function(response) { 
+                        $('#product_id').val(new_product_id);
+                        $('#product_image').val(response.image_url);
+                        $('#product_name').val(response.product_name);
+                        $('#reservation-size').text(size);
+                        $('#product_size').val(size);
+                        $('#reservation-image').attr('src', response.image_url);
+                        $('#reservation-title').attr('src', response.product_name);
+                        $('#reservation-product-item-name').text(response.product_name);                  
+                        $('#reservation-price ').text(response.price);    
+                        $('#product_price').val(response.price);         
+                    }
+                });                 
+
+            } else {
+
+            	$('#product_id').val('');    
+                $("#reservation-mage-error").show();   
+            }
+
+        });
+        
+       	var options = {
+	        type: 'popup',
+	        responsive: true,
+	        innerScroll: true,
+	        title: 'RÉSERVATION',
+	        buttons: [{
+	            text: $.mage.__('RÉSERVATION'),
+	            class: '',
+	            click: function() {
+	            	var eventClick = this;
+                    var post_data = '';
+                    post_data = $('#form-webservices').serialize();
+
+                    $.ajax({
+                        showLoader: true,
+                        url: $("#reservation-form").attr('action'),
+                        data: $("#reservation-form").serialize(),
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(response) {                    
+                            $(".reservation-msg").show();   
+                            if(response.exceed){                                                            
+                                $(".reservation-msg").html('<div class="message message-warning error"><div id="msg">'+response.message+'</div></div>'); 
+                            }else{
+                                $(".reservation-msg").html('<div class="message-success success message" data-ui-id="message-success"><div id="msg">'+response.message+'</div></div>'); 
+                            }                                               
+                        },
+                        error: function(response) {           
+                          
+                            $("[name='firstname'],[name='name'],[name='email'],[name='phone']").css({'border': '1px dashed red'});
+                                             
+                        }
+                    });
+                }
+            }]
+        };
+
+        $("[name='firstname'],[name='name'],[name='email'],[name='phone']").keyup(function() {
+
+            if (!this.value) {
+                $(this).css({'border': '1px dashed red'});
+            }else{
+
+                $(this).css({'border': '1px solid #c2c2c2'});
+            }
+
+        });         
+
+        var popup = modal(options, $('#reservation-popup-mpdal'));
+        $("#product-reservation-button").on('click', function() {
+
+            if($('#product_id').val() == ''){              
+                $("#reservation-mage-error").text('You need to select the product size');
+            }else{    
+                $("#reservation-popup-mpdal").modal("openModal");
+            }    
+        });       
+   	}
+);
+</script>	 

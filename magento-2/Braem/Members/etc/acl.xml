@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Braem_Members::members" title="Members" sortOrder="60">
+                    <resource id="Braem_Members::member" title="Members" sortOrder="10"/>
+                    <resource id="Braem_Members::region" title="Regions" sortOrder="20"/>
+                    <resource id="Braem_Members::department" title="Departments" sortOrder="30"/>
+                    <resource id="Braem_Members::team" title="Teams" sortOrder="40"/>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Braem_Members::members_config" title="Members"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

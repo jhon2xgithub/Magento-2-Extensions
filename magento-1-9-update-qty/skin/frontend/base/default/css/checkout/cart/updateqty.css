@@ -1,0 +1,11 @@
+
+.product-cart-actions .qtyplus,
+.product-cart-actions .qtyminus {
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    color: #FFFFFF;
+    line-height: 26px;
+    background-color: #3399cc;
+}
+

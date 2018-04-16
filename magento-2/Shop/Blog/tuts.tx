@@ -1,0 +1,378 @@
+1. how to create admin grid? 
+note: before to begin create table first
+
+ans: 
+1. // etc/adminhtml/menu.xml
+ 	<?xml version="1.0"?>
+	<!--
+	/**
+	 * Copyright © 2015 Pagseguro. All rights reserved.
+	 */
+	-->
+	<config 
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	    xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+	    <menu>
+
+	       <add 
+	            id="Shop_Blog::base" 
+	            title="Blog" 
+	            module="Shop_Blog" 
+	            sortOrder="10" 
+	            resource="Shop_Blog::blog"/>      
+	      
+	        <add 
+	            id="Shop_Blog::blog" 
+	            title="Blog" 
+	            module="Shop_Blog" 
+	            sortOrder="10" 
+	            action="shop_blog/blog" 
+	            resource="Shop_Blog::blog" 
+	            parent="Shop_Blog::base"/>
+	      
+	        <
+	    </menu>
+	</config>
+
+2. // controller/adminhtml/blog.php
+<?php
+/**
+ * Copyright © 2015 Shop. All rights reserved.
+ */
+
+namespace Shop\Blog\Controller\Adminhtml;
+
+/**
+ * blog controller
+ */
+abstract class Blog extends \Magento\Backend\App\Action
+{
+    /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry;
+
+        /**
+     * File Factory.
+     *
+     * @var \Magento\Framework\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+
+    /**
+     * @var \Magento\Backend\Model\View\Result\ForwardFactory
+     */
+    protected $resultForwardFactory;
+
+    /**
+     * @var \Magento\Framework\View\Result\PageFactory
+     */
+    protected $resultPageFactory;
+
+    /**
+     * @var \Magento\MediaStorage\Model\File\UploaderFactory
+     */
+    protected $_fileUploaderFactory;
+
+    /**
+     * @var \Magento\Framework\View\Result\LayoutFactory
+     */
+    protected $_resultLayoutFactory;
+
+    /**
+     * @var \Magento\Backend\Helper\Js
+     */
+    protected $_jsHelper;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Ui\Component\MassAction\Filter
+     */
+    protected $_massActionFilter;
+
+    protected $_directorylist;
+    protected $_filesystem;
+
+    // protected $_imageFactory;
+                   
+    /**
+     * Initialize Group Controller
+     *
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     */
+    public function __construct(    
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory,
+        \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Helper\Js $jsHelper,
+        \Magento\Ui\Component\MassAction\Filter $massActionFilter,
+        \Magento\Framework\App\Filesystem\DirectoryList $_directorylist,
+        \Magento\Framework\Filesystem $filesystem
+        
+            
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
+        $this->resultForwardFactory = $resultForwardFactory;
+        $this->resultPageFactory = $resultPageFactory;  
+        $this->_fileUploaderFactory = $uploaderFactory;
+        $this->_resultLayoutFactory = $resultLayoutFactory;
+        $this->_storeManager = $storeManager;
+        $this->_jsHelper = $jsHelper;
+        $this->_massActionFilter = $massActionFilter;
+        $this->_directorylist=$_directorylist;
+        $this->_filesystem = $filesystem;
+        // $this->_imageFactory = $imageFactory; 
+        
+
+        parent::__construct($context);
+
+    }
+
+    /**
+     * Initiate action
+     *
+     * @return this 
+     */
+    protected function _initAction()
+    {
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Shop_Blog::blog')->_addBreadcrumb(__('blog'), __('blog'));
+        return $this;
+    }
+
+    /**
+     * Determine if authorized to perform group actions.
+     * Check permission via ACL resource
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Shop_Blog::blog');
+    }
+
+    public function getResultPage()
+    {
+        if (is_null($this->_resultPage)) {
+            $this->_resultPage = $this->resultPageFactory->create();
+        }
+        return $this->_resultPage;
+    }
+
+    protected function _setPageData()
+    {
+        $resultPage = $this->getResultPage();
+        $resultPage->setActiveMenu('Shop_Blog::base');
+        $resultPage->getConfig()->getTitle()->prepend((__('Blog')));
+
+        //Add bread crumb
+        $resultPage->addBreadcrumb(__('Shop'), __('Shop'));
+        $resultPage->addBreadcrumb(__('Blog'), __('Manage Blogs'));
+
+        return $this;
+    }
+}
+
+
+
+3. // controller/adminhtml/blog/index.php
+<?php
+/**
+ * Copyright © 2015 Shop. All rights reserved.
+ */
+
+namespace Shop\Blog\Controller\Adminhtml\Blog;
+
+class Index extends \Shop\Blog\Controller\Adminhtml\Blog
+{
+    /**
+     * Lookbook list.
+     *
+     * @return \Magento\Backend\Model\View\Result\Page
+     */
+    public function execute()
+    {
+        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->setActiveMenu('Shop_Blog::blog');
+        $resultPage->getConfig()->getTitle()->prepend(__('Shop Blog'));
+        $resultPage->addBreadcrumb(__('Shop'), __('Shop'));
+        $resultPage->addBreadcrumb(__('Blog'), __('Blog'));
+        return $resultPage;
+    }
+}
+
+4. block/adminhtml/blog/blog.php
+<?php
+/**
+ * Copyright © 2015 Shop. All rights reserved.
+ */
+namespace Shop\Blog\Block\Adminhtml;
+
+class Blog extends \Magento\Backend\Block\Widget\Grid\Container
+{
+    /**
+     * Constructor
+     *
+     * @return void
+     */
+    protected function _construct()
+    {
+        $this->_controller = 'blog';
+        $this->_headerText = __('Blog');
+        $this->_addButtonLabel = __('Add New Blog');
+        parent::_construct();
+    }
+
+}
+
+4. // view/adminhtml/layout/shop_blog_blog_index.xml
+<?xml version="1.0"?>
+<!-- Admin Grid
+/**
+ * Copyright © 2015 Shop. All rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+        	<block class="Shop\Blog\Block\Adminhtml\Blog" name="adminhtml.block.promo.quote.grid.container">
+                <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.promo.quote.grid" as="grid">
+       
+					<arguments>
+						<argument name="id" xsi:type="string">shop_blog_blog_grid</argument>
+						<argument name="dataSource" xsi:type="object">Shop\Blog\Model\Resource\Blog\Collection</argument>
+						<argument name="default_sort" xsi:type="string">sort_order</argument>
+						<argument name="default_dir" xsi:type="string">desc</argument>
+						<argument name="save_parameters_in_session" xsi:type="string">1</argument>
+					
+						<argument name="use_ajax" xsi:type="boolean">true</argument>
+						<argument name="grid_url" xsi:type="url" path="*/*/grid">
+							<param name="_current">1</param> 
+						</argument>
+					</arguments>		
+
+					<block class="Magento\Backend\Block\Widget\Grid\Massaction" name="module.module.grid.massaction" as="grid.massaction">
+		                <arguments>
+		                    <argument name="massaction_id_field" xsi:type="string">module_id</argument>
+		                    <argument name="form_field_name" xsi:type="string">id</argument>
+		                    <argument name="use_select_all" xsi:type="string">1</argument>
+		                    <argument name="options" xsi:type="array">
+		                       <!--  
+		                       <item name="enable" xsi:type="array">
+		                            <item name="label" xsi:type="string" translate="true">Enable</item>
+		                            <item name="url" xsi:type="string">*/*/massStatus/status/1/</item>
+		                        </item>
+		                        <item name="disable" xsi:type="array">
+		                            <item name="label" xsi:type="string" translate="true">Disable</item>
+		                            <item name="url" xsi:type="string">*/*/massStatus/status/0/</item>
+		                        </item> -->
+		                        <item name="delete" xsi:type="array">
+		                            <item name="label" xsi:type="string" translate="true">Delete</item>
+		                            <item name="url" xsi:type="string">*/*/delete</item>
+		                        </item>
+		                        <item name="massdelete" xsi:type="array">
+		                            <item name="label" xsi:type="string" translate="true">Mass Delete</item>
+		                            <item name="url" xsi:type="string">*/*/massdelete</item>
+		                        </item>
+		                    </argument>
+		                </arguments>
+		            </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.promo.quote.grid.columnSet">
+                        <arguments>
+                            <argument name="rowUrl" xsi:type="array">
+                                <item name="path" xsi:type="string">shop_blog/*/edit</item>
+                                <item name="extraParamsTemplate" xsi:type="array">
+                                    <item name="id" xsi:type="string">getId</item>
+                                </item>
+                            </argument>
+                        </arguments>						
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="id">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">ID</argument>
+                                <argument name="index" xsi:type="string">id</argument>
+                                <argument name="column_css_class" xsi:type="string">col-id</argument>
+                                <argument name="header_css_class" xsi:type="string">col-id</argument>
+                            </arguments>
+                        </block>
+						<block class="Magento\Backend\Block\Widget\Grid\Column" as="title">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">Title</argument>
+                                <argument name="index" xsi:type="string">title</argument>
+                            </arguments>
+                        </block>
+                      <!--   <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">Name</argument>
+                                <argument name="index" xsi:type="string">name</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="Order">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">Order</argument>
+                                <argument name="index" xsi:type="string">position</argument>
+                            </arguments>
+                        </block>
+						<block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
+							<arguments>
+								<argument name="header" xsi:type="string" translate="true">
+									Status
+								</argument>
+								<argument name="index" xsi:type="string">status</argument>
+								<argument name="type" xsi:type="string">options</argument>
+								<argument name="options" xsi:type="options" model="Shop\blog\Model\System\Config\Status"/>
+							</arguments>
+						</block> -->
+						<block class="Magento\Backend\Block\Widget\Grid\Column" as="action" acl="Shop_blog::manage_blog">
+							<arguments>
+								<argument name="id" xsi:type="string">action</argument>
+								<argument name="header" xsi:type="string" translate="true">
+									Action
+								</argument>
+								<argument name="type" xsi:type="string">action</argument>
+								<argument name="getter" xsi:type="string">getId</argument>
+								<argument name="filter" xsi:type="boolean">false</argument>
+								<argument name="sortable" xsi:type="boolean">false</argument>
+								<argument name="index" xsi:type="string">stores</argument>
+								<argument name="is_system" xsi:type="boolean">true</argument>
+								<argument name="actions" xsi:type="array">
+									<item name="view_action" xsi:type="array">
+										<item name="caption" xsi:type="string" translate="true">
+											Edit
+										</item>
+										<item name="url" xsi:type="array">
+											<item name="base" xsi:type="string">*/*/edit</item>
+										</item>
+										<item name="field" xsi:type="string">id</item>
+									</item>
+								</argument>
+								<argument name="header_css_class" xsi:type="string">
+									col-actions
+								</argument>
+								<argument name="column_css_class" xsi:type="string">
+									col-actions
+								</argument>
+							</arguments>
+						</block>
+                    </block>
+                </block>
+        	</block>            
+        </referenceContainer>
+    </body>
+</page>
+

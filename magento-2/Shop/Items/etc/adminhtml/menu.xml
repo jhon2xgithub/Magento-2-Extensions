@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add title="Shop Items" id="Shop_Items::items_content" module="Shop_Items" sortOrder="60" parent="Magento_Backend::content" resource="Shop_Items::items_content" />
+
+		<add title="Post" id="Shop_Items::post" module="Shop_Items" sortOrder="0" parent="Shop_Items::items_content" resource="Shop_Items::post" action="items/post" />
+	</menu>
+</config>

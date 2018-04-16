@@ -1,0 +1,8 @@
+.main a[href$=".pdf"]:after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url(../images/ladJx.png) no-repeat;
+  margin-left: 5px;
+}

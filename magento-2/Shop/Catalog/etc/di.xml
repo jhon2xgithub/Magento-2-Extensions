@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <!-- <preference for="Magento\Catalog\Model\Product" type="Sugarcode\Test\Model\Product" /> -->
+   	<!-- <preference for="Magento\Catalog\Block\Product\View" type="Shop\Test\Block\Product\View" /> -->
+    <!-- <preference for="Magento\Catalog\Controller\Product\View" type="Sugarcode\Test\Controller\Product\View" /> -->
+
+</config>

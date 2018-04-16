@@ -1,0 +1,21 @@
+https://webkul.com/blog/load-custom-layout-controller-magento-2/
+https://www.mageplaza.com/magento-2-module-development/view-block-layout-template-magento-2.html
+https://www.mageplaza.com/magento-2-module-development/create-system-xml-configuration-magento-2.html
+
+
+
+
+$this->getUrl('sales/order/view', ['order_id' => $row->getId()]);
+
+               //$this->getUrl('shop_lookbook/lookbok/uploader'),
+
+
+$this->getUrl('sales/order/view', ['order_id' => 1])
+
+$this->getUrl('shop_lookopk/lookbook/uploader', ['order_id' => 1])
+
+http://127.0.0.1/lookbook/admin/shop_lookbook/lookbook/uploader/key/a26be7f92b4c8d664e1a1233e0f5c2c242967d22b3b2262db5d739a485dff5ec/
+
+
+
+upload_url = <?php echo $this->getUrl('shop_lookbook/lookbook/uploader'); ?>";    
